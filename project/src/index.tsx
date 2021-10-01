@@ -7,7 +7,7 @@ const countCard = 5;
 ReactDOM.render(
   <React.StrictMode>
     <App
-      count={countCard}
+      countCard={countCard}
     />
   </React.StrictMode>,
   document.getElementById('root'));

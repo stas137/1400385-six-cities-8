@@ -1,9 +1,10 @@
 import Card from '../card/card';
 
-type AppProps = {};
+type AppProps = {
+  countCard: number,
+};
 
-function App(props: AppProps):JSX.Element {
-
+function App({countCard}: AppProps):JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -91,12 +92,8 @@ function App(props: AppProps):JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">{props}
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
+              <div className="cities__places-list places__list tabs__content">
+                {Array.from({length: countCard}, (value, key) => <Card />)}
               </div>
             </section>
             <div className="cities__right-section">
@@ -105,7 +102,8 @@ function App(props: AppProps):JSX.Element {
           </div>
         </div>
       </main>
-    </div>);
+    </div>
+  );
 }
 
 export default App;
