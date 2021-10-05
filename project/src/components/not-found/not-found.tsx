@@ -1,3 +1,6 @@
+import {Link} from 'react-router-dom';
+import Logo from '../logo/logo';
+
 function NotFound():JSX.Element {
   return (
     <div className="page">
@@ -5,9 +8,7 @@ function NotFound():JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link" href="/">
-                <img className="header__logo" src="/img/logo.svg" alt="6 cities logo" width="81" height="41" />
-              </a>
+              <Logo />
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
@@ -20,7 +21,7 @@ function NotFound():JSX.Element {
                 </li>
                 <li className="header__nav-item">
                   <a className="header__nav-link" href="/#">
-                    <span className="header__signin">Sign in</span>
+                    <span className="header__signout">Sign out</span>
                   </a>
                 </li>
               </ul>
@@ -33,7 +34,7 @@ function NotFound():JSX.Element {
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">404 Not Found</h1>
-            <p className="favorites__title"><a href="/">Перейти на главную страницу</a></p>
+            <p className="favorites__title"><Link to="/">Вернуться на главную страницу</Link></p>
           </section>
         </div>
       </main>

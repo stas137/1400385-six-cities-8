@@ -1,10 +1,14 @@
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {AppRoute, AuthorizationStatus} from '../../const';
+import AppProps from '../../types/types';
+import PrivateRoute from '../private-route/private-route';
+
 import Main from '../main/main';
 import Login from '../login/login';
 import Favorites from '../favorites/favorities';
+import Property from '../property/property';
 import NotFound from '../not-found/not-found';
-import AppProps from '../../types/types';
+
 
 function App({countCard}: AppProps):JSX.Element {
   return (
@@ -18,9 +22,14 @@ function App({countCard}: AppProps):JSX.Element {
         <Route exact path={AppRoute.SignIn}>
           <Login />
         </Route>
-        <Route exact path={AppRoute.Favorites}>
-          <Favorites />
-        </Route>
+        <PrivateRoute
+          exact
+          path={AppRoute.Favorites}
+          render={() => <Favorites />}
+          authorizationStatus={AuthorizationStatus.NoAuth}
+        >
+        </PrivateRoute>
+        <Route exact path={AppRoute.Room} component={Property}/>
         <Route>
           <NotFound />
         </Route>
