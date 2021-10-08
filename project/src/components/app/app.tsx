@@ -1,6 +1,5 @@
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const';
-import AppProps from '../../types/types';
 import PrivateRoute from '../private-route/private-route';
 
 import Main from '../main/main';
@@ -9,6 +8,9 @@ import Favorites from '../favorites/favorities';
 import Property from '../property/property';
 import NotFound from '../not-found/not-found';
 
+type AppProps = {
+  countCard: number,
+};
 
 function App({countCard}: AppProps):JSX.Element {
   return (

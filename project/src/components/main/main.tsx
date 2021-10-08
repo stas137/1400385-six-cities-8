@@ -1,6 +1,9 @@
 import Card from '../card/card';
-import AppProps from '../../types/types';
 import Logo from '../logo/logo';
+
+type AppProps = {
+  countCard: number,
+};
 
 function Main({countCard}: AppProps):JSX.Element {
   return (
