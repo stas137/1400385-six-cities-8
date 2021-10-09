@@ -10,17 +10,15 @@ import Property from '../property/property';
 import NotFound from '../not-found/not-found';
 
 type AppProps = {
-  countCard: number,
   offers: Offers,
 };
 
-function App({countCard, offers}: AppProps):JSX.Element {
+function App({offers}: AppProps):JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
           <Main
-            countCard={countCard}
             offers={offers}
           />
         </Route>
@@ -30,8 +28,8 @@ function App({countCard, offers}: AppProps):JSX.Element {
         <PrivateRoute
           exact
           path={AppRoute.Favorites}
-          render={() => <Favorites />}
-          authorizationStatus={AuthorizationStatus.NoAuth}
+          render={() => <Favorites offers={offers}/>}
+          authorizationStatus={AuthorizationStatus.Auth}
         >
         </PrivateRoute>
         <Route exact path={AppRoute.Room} component={Property}/>

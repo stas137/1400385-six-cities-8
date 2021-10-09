@@ -3,11 +3,10 @@ import Logo from '../logo/logo';
 import {Offers} from '../../types/offers';
 
 type AppProps = {
-  countCard: number,
   offers: Offers,
 };
 
-function Main({countCard, offers}: AppProps):JSX.Element {
+function Main({offers}: AppProps):JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -95,6 +94,7 @@ function Main({countCard, offers}: AppProps):JSX.Element {
               </form>
               <div className="cities__places-list places__list tabs__content">
                 <ListCards
+                  city={'Amsterdam'}
                   offers={offers}
                 />
               </div>

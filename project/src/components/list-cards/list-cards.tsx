@@ -1,22 +1,33 @@
+import {useState} from 'react';
 import Card from '../card/card';
 import {Offers} from '../../types/offers';
 
 //{Array.from({length: countCard}, (value, key) => <Card offer={firstOffer} />)}
 
 type AppProps = {
+  city: string,
   offers: Offers,
 };
 
-function ListCards({offers}: AppProps):JSX.Element {
+function ListCards({city, offers}: AppProps):JSX.Element {
+  const [state, setState] = useState('0');
+
   return (
     <>
       {
-        offers.map((offer, id) => {
-          const keyValue = `${id}-${offer.title}`;
-          return (
-            <Card key={keyValue} offer={offer}/>
-          );
-        })
+        offers.map((offer) => (
+          offer.city === city ?
+            <Card
+              onMouseOver={() => {
+                setState(offer.id ? offer.id : state);
+              }}
+              key={offer.id}
+              offer={offer}
+            /> :
+            <>
+            </>
+        ),
+        )
       }
     </>
   );

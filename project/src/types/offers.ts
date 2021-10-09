@@ -12,7 +12,7 @@ export type Features = {
 };
 
 export type Offer = {
-  id: number,
+  id: string,
   title: string,
   city: string,
   isPremium: boolean,
@@ -20,7 +20,8 @@ export type Offer = {
   propertyType: string,
   bedrooms: number,
   maxAdults: number,
-  cost: number,
+  previewImage: string,
+  price: number,
   features: Features,
   isFavorite: boolean
 };

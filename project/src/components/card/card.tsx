@@ -1,12 +1,13 @@
 import {Offer} from '../../types/offers';
 
 type AppProps = {
+  onMouseOver: () => void,
   offer: Offer,
 };
 
-function Card({offer}: AppProps):JSX.Element {
+function Card({onMouseOver, offer}: AppProps):JSX.Element {
   return (
-    <article className="cities__place-card place-card">
+    <article className="cities__place-card place-card" onMouseOver={onMouseOver}>
       {offer.isPremium ? (
         <div className="place-card__mark">
           <span>Premium</span>
@@ -14,32 +15,41 @@ function Card({offer}: AppProps):JSX.Element {
       ) : ''}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="/#">
-          <img className="place-card__image" src="/img/apartment-01.jpg" width="260" height="200" alt="Place icon" />
+          <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place icon" />
         </a>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">&euro;120</b>
+            <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button button" type="button">
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+
+          {offer.isFavorite ?
+            <button className="place-card__bookmark-button button place-card__bookmark-button--active" type="button">
+              <svg className="place-card__bookmark-icon" width="18" height="19">
+                <use xlinkHref="#icon-bookmark"></use>
+              </svg>
+              <span className="visually-hidden">To bookmarks</span>
+            </button> :
+            <button className="place-card__bookmark-button button" type="button">
+              <svg className="place-card__bookmark-icon" width="18" height="19">
+                <use xlinkHref="#icon-bookmark"></use>
+              </svg>
+              <span className="visually-hidden">To bookmarks</span>
+            </button>}
+
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: '80%'}}></span>
+            <span style={{width: `${(offer.rate / 5) * 100}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="/#">Beautiful &amp; luxurious apartment at great location</a>
+          <a href="/#">{offer.title}</a>
         </h2>
-        <p className="place-card__type">Apartment</p>
+        <p className="place-card__type">{offer.propertyType}</p>
       </div>
     </article>
   );
