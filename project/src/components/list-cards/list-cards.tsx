@@ -1,8 +1,6 @@
-import {useState} from 'react';
+import React, {useState} from 'react';
 import Card from '../card/card';
 import {Offers} from '../../types/offers';
-
-//{Array.from({length: countCard}, (value, key) => <Card offer={firstOffer} />)}
 
 type AppProps = {
   city: string,
