@@ -6,6 +6,7 @@ import {offers} from './mocks/offers';
 ReactDOM.render(
   <React.StrictMode>
     <App
+      city={'Amsterdam'}
       offers={offers}
     />
   </React.StrictMode>,

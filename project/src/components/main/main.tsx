@@ -1,12 +1,14 @@
 import ListCards from '../list-cards/list-cards';
 import Logo from '../logo/logo';
 import {Offers} from '../../types/offers';
+import Map from '../map/map';
 
 type AppProps = {
+  city: string,
   offers: Offers,
 };
 
-function Main({offers}: AppProps):JSX.Element {
+function Main({city, offers}: AppProps):JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -94,13 +96,19 @@ function Main({offers}: AppProps):JSX.Element {
               </form>
               <div className="cities__places-list places__list tabs__content">
                 <ListCards
-                  city={'Amsterdam'}
+                  city={city}
                   offers={offers}
                 />
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <section className="cities__map map">
+                <Map
+                  city={city}
+                  offers={offers}
+                  selectedOffer={offers[0]}
+                />
+              </section>
             </div>
           </div>
         </div>

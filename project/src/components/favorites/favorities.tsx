@@ -7,6 +7,9 @@ type AppProps = {
 };
 
 function Favorites({offers}: AppProps):JSX.Element {
+  const offerCities = offers.map((offer) => offer.city);
+  const uniqCities = [...new Set(offerCities)];
+
   return (
     <div className="page">
       <header className="header">
@@ -40,51 +43,32 @@ function Favorites({offers}: AppProps):JSX.Element {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              <li className="favorites__locations-items">
-                <div className="favorites__locations locations locations--current">
-                  <div className="locations__item">
-                    <a className="locations__item-link" href="/#">
-                      <span>Amsterdam</span>
-                    </a>
-                  </div>
-                </div>
-                <div className="favorites__places">
-                  {
-                    offers.map((offer) => (
-                      (offer.city === 'Amsterdam') && (offer.isFavorite) ?
-                        <FavoriteCard
-                          offer={offer}
-                        /> :
-                        <>
-                        </>
-                    ),
-                    )
-                  }
-                </div>
-              </li>
-
-              <li className="favorites__locations-items">
-                <div className="favorites__locations locations locations--current">
-                  <div className="locations__item">
-                    <a className="locations__item-link" href="/#">
-                      <span>Cologne</span>
-                    </a>
-                  </div>
-                </div>
-                <div className="favorites__places">
-                  {
-                    offers.map((offer) => (
-                      (offer.city === 'Cologne') && (offer.isFavorite) ?
-                        <FavoriteCard
-                          offer={offer}
-                        /> :
-                        <>
-                        </>
-                    ),
-                    )
-                  }
-                </div>
-              </li>
+              {
+                uniqCities.map((city) => (
+                  <li className="favorites__locations-items" key={city}>
+                    <div className="favorites__locations locations locations--current">
+                      <div className="locations__item">
+                        <a className="locations__item-link" href="/#">
+                          <span>{city}</span>
+                        </a>
+                      </div>
+                    </div>
+                    <div className="favorites__places">
+                      {
+                        offers.map((offer) => (
+                          (offer.city === city) && (offer.isFavorite) ?
+                            <FavoriteCard
+                              key={offer.id}
+                              offer={offer}
+                            /> :
+                            <>
+                            </>
+                        ))
+                      }
+                    </div>
+                  </li>
+                ))
+              }
             </ul>
           </section>
         </div>

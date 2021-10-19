@@ -10,15 +10,17 @@ import Property from '../property/property';
 import NotFound from '../not-found/not-found';
 
 type AppProps = {
+  city: string,
   offers: Offers,
 };
 
-function App({offers}: AppProps):JSX.Element {
+function App({city, offers}: AppProps):JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
           <Main
+            city={city}
             offers={offers}
           />
         </Route>

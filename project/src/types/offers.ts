@@ -13,6 +13,8 @@ export type Features = {
 
 export type Offer = {
   id: string,
+  lat: number,
+  lng: number,
   title: string,
   city: string,
   isPremium: boolean,

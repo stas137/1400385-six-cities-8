@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {MutableRefObject, useState} from 'react';
 import Card from '../card/card';
 import {Offers} from '../../types/offers';
 
@@ -8,24 +8,29 @@ type AppProps = {
 };
 
 function ListCards({city, offers}: AppProps):JSX.Element {
-  const [state, setState] = useState('0');
+  const [activeCard, setActiveCard] = useState(null);
+
+  const handleMouseEnterEvent = (cardRef: MutableRefObject<null>) => {
+    setActiveCard(cardRef.current ? cardRef.current : activeCard);
+  };
+
+  const handleMouseLeaveEvent = () => {
+    setActiveCard(null);
+  };
+
+  const filterOffers = offers.filter((offer) => offer.city === city);
 
   return (
     <>
       {
-        offers.map((offer) => (
-          offer.city === city ?
-            <Card
-              onMouseOver={() => {
-                setState(offer.id ? offer.id : state);
-              }}
-              key={offer.id}
-              offer={offer}
-            /> :
-            <>
-            </>
-        ),
-        )
+        filterOffers.map((offer) => (
+          <Card
+            onMouseEnter={handleMouseEnterEvent}
+            onMouseLeave={handleMouseLeaveEvent}
+            key={offer.id}
+            offer={offer}
+          />
+        ))
       }
     </>
   );
