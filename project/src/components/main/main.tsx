@@ -3,12 +3,12 @@ import Logo from '../logo/logo';
 import {Offers} from '../../types/offers';
 import Map from '../map/map';
 
-type AppProps = {
+type MainProps = {
   city: string,
   offers: Offers,
 };
 
-function Main({city, offers}: AppProps):JSX.Element {
+function Main({city, offers}: MainProps):JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">

@@ -34,7 +34,12 @@ function App({city, offers}: AppProps):JSX.Element {
           authorizationStatus={AuthorizationStatus.Auth}
         >
         </PrivateRoute>
-        <Route exact path={AppRoute.Room} component={Property}/>
+        <Route exact path={AppRoute.Room}>
+          <Property
+            city={city}
+            offers={offers}
+          />
+        </Route>
         <Route>
           <NotFound />
         </Route>

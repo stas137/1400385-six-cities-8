@@ -1,12 +1,12 @@
 import Logo from '../logo/logo';
 import {Offers} from '../../types/offers';
-import FavoriteCard from '../favorite-card/favorite-card';
+import FavoriteList from '../favorite-list/favorite-list';
 
-type AppProps = {
+type FavoritiesProps = {
   offers: Offers,
 };
 
-function Favorites({offers}: AppProps):JSX.Element {
+function Favorites({offers}: FavoritiesProps):JSX.Element {
   const offerCities = offers.map((offer) => offer.city);
   const uniqCities = [...new Set(offerCities)];
 
@@ -45,28 +45,11 @@ function Favorites({offers}: AppProps):JSX.Element {
             <ul className="favorites__list">
               {
                 uniqCities.map((city) => (
-                  <li className="favorites__locations-items" key={city}>
-                    <div className="favorites__locations locations locations--current">
-                      <div className="locations__item">
-                        <a className="locations__item-link" href="/#">
-                          <span>{city}</span>
-                        </a>
-                      </div>
-                    </div>
-                    <div className="favorites__places">
-                      {
-                        offers.map((offer) => (
-                          (offer.city === city) && (offer.isFavorite) ?
-                            <FavoriteCard
-                              key={offer.id}
-                              offer={offer}
-                            /> :
-                            <>
-                            </>
-                        ))
-                      }
-                    </div>
-                  </li>
+                  <FavoriteList
+                    key={city}
+                    city={city}
+                    offers={offers}
+                  />
                 ))
               }
             </ul>

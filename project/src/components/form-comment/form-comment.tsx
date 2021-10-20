@@ -1,3 +1,4 @@
+import React from 'react';
 import {ChangeEvent, useState} from 'react';
 
 function FormComment():JSX.Element {
@@ -13,7 +14,7 @@ function FormComment():JSX.Element {
       <div className="reviews__rating-form form__rating">
         {
           starArray.map((item) => (
-            <>
+            <React.Fragment key={item}>
               <input className="form__rating-input visually-hidden" name="rating"
                 value={item + 1}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +28,7 @@ function FormComment():JSX.Element {
                   <use xlinkHref="#icon-star"></use>
                 </svg>
               </label>
-            </>
+            </React.Fragment>
           ))
         }
 

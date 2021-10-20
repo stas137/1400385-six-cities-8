@@ -1,20 +1,18 @@
 import {Link} from 'react-router-dom';
 import {Offer} from '../../types/offers';
-import {MouseEvent, MutableRefObject,useRef} from 'react';
+import {MouseEvent} from 'react';
 
-type AppProps = {
-  onMouseEnter: (cardRef: MutableRefObject<null>) => void,
+type CardProps = {
+  onMouseEnter: (id: string) => void,
   onMouseLeave: () => void,
   offer: Offer,
 };
 
-function Card({onMouseEnter, onMouseLeave, offer}: AppProps):JSX.Element {
-
-  const cardRef = useRef(null);
+function Card({onMouseEnter, onMouseLeave, offer}: CardProps):JSX.Element {
 
   const handleMouseEnter = (e: MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    onMouseEnter(cardRef);
+    onMouseEnter(offer.id);
   };
 
   const handleMouseLeave = (e: MouseEvent<HTMLElement>) => {
@@ -23,7 +21,7 @@ function Card({onMouseEnter, onMouseLeave, offer}: AppProps):JSX.Element {
   };
 
   return (
-    <article className="cities__place-card place-card" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={cardRef}>
+    <article className="cities__place-card place-card" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       {offer.isPremium ? (
         <div className="place-card__mark">
           <span>Premium</span>
