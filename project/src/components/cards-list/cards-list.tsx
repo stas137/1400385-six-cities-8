@@ -1,34 +1,34 @@
 import React, {useState} from 'react';
 import Card from '../card/card';
 import {Offers} from '../../types/offers';
+import {Type} from '../../const';
 
-type AppProps = {
-  city: string,
-  offers: Offers,
+type CardsListProps = {
+  currentCityOffers: Offers,
+  type: Type,
 };
 
-function ListCards({city, offers}: AppProps):JSX.Element {
-  const [activeCard, setActiveCard] = useState('0');
+function CardsList({currentCityOffers, type}: CardsListProps):JSX.Element {
+  const [activeCard, setActiveCard] = useState<string | null>(null);
 
   const handleMouseEnterEvent = (id: string) => {
     setActiveCard(id ? id : activeCard);
   };
 
   const handleMouseLeaveEvent = () => {
-    setActiveCard('0');
+    setActiveCard(null);
   };
-
-  const filterOffers = offers.filter((offer) => offer.city === city);
 
   return (
     <>
       {
-        filterOffers.map((offer) => (
+        currentCityOffers.map((offer) => (
           <Card
             onMouseEnter={handleMouseEnterEvent}
             onMouseLeave={handleMouseLeaveEvent}
             key={offer.id}
             offer={offer}
+            type={type}
           />
         ))
       }
@@ -36,4 +36,4 @@ function ListCards({city, offers}: AppProps):JSX.Element {
   );
 }
 
-export default ListCards;
+export default CardsList;

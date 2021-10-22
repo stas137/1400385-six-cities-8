@@ -10,13 +10,7 @@ function useMap(
 
   useEffect(() => {
     if (mapRef.current !== null && map === null) {
-      const instanceMap = new Map(mapRef.current, {
-        center: {
-          lat: offers[0].lat,
-          lng: offers[0].lng,
-        },
-        zoom: 10,
-      });
+      const instanceMap = new Map(mapRef.current);
 
       const layer = new TileLayer(
         'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',

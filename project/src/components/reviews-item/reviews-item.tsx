@@ -1,28 +1,45 @@
-function ReviewsItem():JSX.Element {
+import {Offer, Comment} from '../../types/offers';
+
+type ReviewsItemProps = {
+  offer: Offer,
+}
+
+function ReviewsItem({offer}: ReviewsItemProps):JSX.Element {
+
+  const getMonthName = (monthNumber: number): string => {
+    const monthName = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+    return monthName[monthNumber];
+  };
+
   return (
-    <li className="reviews__item">
-      <div className="reviews__user user">
-        <div className="reviews__avatar-wrapper user__avatar-wrapper">
-          <img className="reviews__avatar user__avatar" src="/img/avatar-max.jpg" width="54" height="54" alt="Reviews avatar" />
-        </div>
-        <span className="reviews__user-name">
-          Max
-        </span>
-      </div>
-      <div className="reviews__info">
-        <div className="reviews__rating rating">
-          <div className="reviews__stars rating__stars">
-            <span style={{width: '80%'}}></span>
-            <span className="visually-hidden">Rating</span>
-          </div>
-        </div>
-        <p className="reviews__text">
-          A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.
-          The building is green and from 18th century.
-        </p>
-        <time className="reviews__time" dateTime="2019-04-24">April 2019</time>
-      </div>
-    </li>
+    <>
+      {
+        offer.comments.map((comment: Comment) => (
+          <li className="reviews__item" key={comment.id}>
+            <div className="reviews__user user">
+              <div className="reviews__avatar-wrapper user__avatar-wrapper">
+                <img className="reviews__avatar user__avatar" src={comment.user.avatarUrl} width="54" height="54" alt="Reviews avatar" />
+              </div>
+              <span className="reviews__user-name">
+                {comment.user.name}
+              </span>
+            </div>
+            <div className="reviews__info">
+              <div className="reviews__rating rating">
+                <div className="reviews__stars rating__stars">
+                  <span style={{width: `${(comment.rating / 5) * 100}%`}}></span>
+                  <span className="visually-hidden">Rating</span>
+                </div>
+              </div>
+              <p className="reviews__text">
+                {comment.comment}
+              </p>
+              <time className="reviews__time" dateTime={String(comment.date)}>{`${getMonthName(comment.date.getMonth())} ${comment.date.getFullYear()}`}</time>
+            </div>
+          </li>
+        ))
+      }
+    </>
   );
 }
 

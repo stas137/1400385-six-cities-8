@@ -11,6 +11,19 @@ export type Features = {
   cableTV: boolean,
 };
 
+export type Comment = {
+  comment: string,
+  date: Date,
+  id: number,
+  rating: number,
+  user: {
+    avatarUrl: string,
+    id: number,
+    isPro: boolean,
+    name: string,
+  }
+};
+
 export type Offer = {
   id: string,
   lat: number,
@@ -25,7 +38,9 @@ export type Offer = {
   previewImage: string,
   price: number,
   features: Features,
+  comments: Comments,
   isFavorite: boolean
 };
 
 export type Offers = Offer[];
+export type Comments = Comment[];

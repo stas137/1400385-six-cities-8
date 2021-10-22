@@ -3,14 +3,14 @@ import FormComment from '../form-comment/form-comment';
 import ReviewsList from '../reviews-list/reviews-list';
 import Map from '../map/map';
 import {Offers} from '../../types/offers';
-import ListCards from '../list-cards/list-cards';
+import CardsList from '../cards-list/cards-list';
+import {Type} from '../../const';
 
 type PropertyProps = {
-  city: string,
-  offers: Offers,
+  currentCityOffers: Offers,
 };
 
-function Property({city, offers}: PropertyProps):JSX.Element {
+function Property({currentCityOffers}: PropertyProps):JSX.Element {
   return (
     <div className="page">
       <header className="header">
@@ -162,7 +162,7 @@ function Property({city, offers}: PropertyProps):JSX.Element {
               </div>
               <section className="property__reviews reviews">
                 <ReviewsList
-                  countReviews={1}
+                  offer={currentCityOffers[0]}
                 />
                 <FormComment />
               </section>
@@ -170,8 +170,7 @@ function Property({city, offers}: PropertyProps):JSX.Element {
           </div>
           <section className="property__map map">
             <Map
-              city={city}
-              offers={offers}
+              currentCityOffers={currentCityOffers}
               selectedOffer={undefined}
             />
           </section>
@@ -180,9 +179,9 @@ function Property({city, offers}: PropertyProps):JSX.Element {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <ListCards
-                city={city}
-                offers={offers}
+              <CardsList
+                currentCityOffers={currentCityOffers}
+                type={Type.Property}
               />
             </div>
           </section>

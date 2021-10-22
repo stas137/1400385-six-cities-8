@@ -1,14 +1,24 @@
-import ListCards from '../list-cards/list-cards';
+import CardsList from '../cards-list/cards-list';
 import Logo from '../logo/logo';
-import {Offers} from '../../types/offers';
+import CitiesList from '../cities-list/cities-list';
 import Map from '../map/map';
+import {Type} from '../../const';
+import {connect, ConnectedProps} from 'react-redux';
+import {State} from '../../types/state';
 
-type MainProps = {
-  city: string,
-  offers: Offers,
-};
+const mapStateToProps = ({currentCity, offers}: State) => ({
+  currentCity,
+  offers,
+});
 
-function Main({city, offers}: MainProps):JSX.Element {
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function Main(props: PropsFromRedux):JSX.Element {
+  const {currentCity, offers} = props;
+  const currentCityOffers = offers.filter((offer) => offer.city === currentCity);
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -40,45 +50,14 @@ function Main({city, offers}: MainProps):JSX.Element {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
+            <CitiesList />
           </section>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">312 places to stay in Amsterdam</b>
+              <b className="places__found">{currentCityOffers.length} places to stay in {currentCity}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -95,18 +74,17 @@ function Main({city, offers}: MainProps):JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <ListCards
-                  city={city}
-                  offers={offers}
+                <CardsList
+                  currentCityOffers={currentCityOffers}
+                  type={Type.Main}
                 />
               </div>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
                 <Map
-                  city={city}
-                  offers={offers}
-                  selectedOffer={offers[0]}
+                  currentCityOffers={currentCityOffers}
+                  selectedOffer={currentCityOffers[0]}
                 />
               </section>
             </div>
@@ -117,4 +95,5 @@ function Main({city, offers}: MainProps):JSX.Element {
   );
 }
 
-export default Main;
+export {Main};
+export default connector(Main);

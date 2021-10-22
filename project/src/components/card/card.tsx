@@ -1,14 +1,16 @@
 import {Link} from 'react-router-dom';
 import {Offer} from '../../types/offers';
 import {MouseEvent} from 'react';
+import {Type} from '../../const';
 
 type CardProps = {
   onMouseEnter: (id: string) => void,
   onMouseLeave: () => void,
   offer: Offer,
+  type: Type,
 };
 
-function Card({onMouseEnter, onMouseLeave, offer}: CardProps):JSX.Element {
+function Card({onMouseEnter, onMouseLeave, offer, type}: CardProps):JSX.Element {
 
   const handleMouseEnter = (e: MouseEvent<HTMLElement>) => {
     e.preventDefault();
@@ -21,13 +23,13 @@ function Card({onMouseEnter, onMouseLeave, offer}: CardProps):JSX.Element {
   };
 
   return (
-    <article className="cities__place-card place-card" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      {offer.isPremium ? (
+    <article className={type === Type.Main ? 'cities__place-card place-card' : 'near-places__card place-card'} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      {type === Type.Main && offer.isPremium ? (
         <div className="place-card__mark">
           <span>Premium</span>
         </div>
       ) : ''}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={type === Type.Main ? 'cities__image-wrapper place-card__image-wrapper' : 'near-places__image-wrapper place-card__image-wrapper'}>
         <a href="/#">
           <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place icon" />
         </a>

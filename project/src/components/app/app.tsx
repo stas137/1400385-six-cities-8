@@ -1,28 +1,31 @@
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import PrivateRoute from '../private-route/private-route';
-import {Offers} from '../../types/offers';
-
 import Main from '../main/main';
 import Login from '../login/login';
 import Favorites from '../favorites/favorities';
 import Property from '../property/property';
 import NotFound from '../not-found/not-found';
+import {State} from '../../types/state';
+import {connect, ConnectedProps} from 'react-redux';
 
-type AppProps = {
-  city: string,
-  offers: Offers,
-};
+const mapStateToProps = ({currentCity, offers}: State) => ({
+  currentCity,
+  offers,
+});
 
-function App({city, offers}: AppProps):JSX.Element {
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function App({currentCity, offers}: PropsFromRedux):JSX.Element {
+  const currentCityOffers = offers.filter((offer) => offer.city === currentCity);
+
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
-          <Main
-            city={city}
-            offers={offers}
-          />
+          <Main />
         </Route>
         <Route exact path={AppRoute.SignIn}>
           <Login />
@@ -36,8 +39,7 @@ function App({city, offers}: AppProps):JSX.Element {
         </PrivateRoute>
         <Route exact path={AppRoute.Room}>
           <Property
-            city={city}
-            offers={offers}
+            currentCityOffers={currentCityOffers}
           />
         </Route>
         <Route>
@@ -48,4 +50,5 @@ function App({city, offers}: AppProps):JSX.Element {
   );
 }
 
-export default App;
+export {App};
+export default connector (App);

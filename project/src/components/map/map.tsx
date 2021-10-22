@@ -1,4 +1,4 @@
-import React, {useRef, useEffect} from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import {Offers, Offer} from '../../types/offers';
 import useMap from '../../hooks/use-map';
 import {Icon, Marker} from 'leaflet';
@@ -6,15 +6,14 @@ import {URL_MARKER_CURRENT, URL_MARKER_DEFAULT} from '../../const';
 import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
-  city: string,
-  offers: Offers,
+  currentCityOffers: Offers,
   selectedOffer: Offer | undefined,
 }
 
-function Map({city, offers, selectedOffer}: MapProps):JSX.Element {
+function Map({currentCityOffers, selectedOffer}: MapProps):JSX.Element {
   const mapRef = useRef(null);
-  const filterOffers = offers.filter((offer) => offer.city === city);
-  const map = useMap(mapRef, filterOffers);
+  const map = useMap(mapRef, currentCityOffers);
+  const [points, setPoints] = useState<Marker[]>([]);
 
   const defaultCustomIcon = new Icon({
     iconUrl: URL_MARKER_DEFAULT,
@@ -30,7 +29,18 @@ function Map({city, offers, selectedOffer}: MapProps):JSX.Element {
 
   useEffect(() => {
     if (map) {
-      filterOffers.forEach((offer) => {
+
+      map.setView({
+        lat: currentCityOffers[0].lat,
+        lng: currentCityOffers[0].lng,
+      },
+      10,
+      );
+
+      points.forEach((point) => map.removeLayer(point));
+
+      const markerList: Marker[] = [];
+      currentCityOffers.forEach((offer) => {
         const marker = new Marker({
           lat: offer.lat,
           lng: offer.lng,
@@ -42,9 +52,13 @@ function Map({city, offers, selectedOffer}: MapProps):JSX.Element {
               ? currentCustomIcon
               : defaultCustomIcon)
           .addTo(map);
+
+        markerList.push(marker);
       });
+
+      setPoints(markerList);
     }
-  }, [map, filterOffers, selectedOffer]);
+  }, [map, currentCityOffers, selectedOffer]);
 
   return (
     <div
