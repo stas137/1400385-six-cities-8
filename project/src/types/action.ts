@@ -1,5 +1,8 @@
 export enum ActionType {
   ChangeCity = 'change-city',
+  ChangeOption = 'change-option',
+  MouseEnter = 'mouse-enter',
+  MouseLeave = 'mouse-leave',
 }
 
 export type ChangeCityAction = {
@@ -7,4 +10,18 @@ export type ChangeCityAction = {
   payload: string,
 }
 
-export type Action = ChangeCityAction;
+export type ChangeOptionAction = {
+  type: ActionType.ChangeOption,
+  payload: string,
+}
+
+export type MouseEnterAction = {
+  type: ActionType.MouseEnter,
+  payload: string,
+}
+
+export type MouseLeaveAction = {
+  type: ActionType.MouseLeave,
+}
+
+export type Actions = ChangeCityAction | ChangeOptionAction | MouseEnterAction | MouseLeaveAction;

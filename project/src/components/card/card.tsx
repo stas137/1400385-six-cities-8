@@ -1,29 +1,40 @@
 import {Link} from 'react-router-dom';
 import {Offer} from '../../types/offers';
-import {MouseEvent} from 'react';
 import {Type} from '../../const';
+import {Actions} from '../../types/action';
+import {leaveMouse, enterMouse} from '../../store/action';
+import {State} from '../../types/state';
+import {Dispatch} from 'redux';
+import {connect, ConnectedProps} from 'react-redux';
 
 type CardProps = {
-  onMouseEnter: (id: string) => void,
-  onMouseLeave: () => void,
   offer: Offer,
   type: Type,
 };
 
-function Card({onMouseEnter, onMouseLeave, offer, type}: CardProps):JSX.Element {
+const mapStateToProps = ({selectedOfferId}: State) => ({
+  selectedOfferId,
+});
 
-  const handleMouseEnter = (e: MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-    onMouseEnter(offer.id);
-  };
+const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+  onMouseEnter(selectedOfferId: string) {
+    dispatch(enterMouse(selectedOfferId));
+  },
 
-  const handleMouseLeave = (e: MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-    onMouseLeave();
-  };
+  onMouseLeave() {
+    dispatch(leaveMouse());
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = CardProps & PropsFromRedux;
+
+function Card({onMouseEnter, onMouseLeave, offer, type}: ConnectedComponentProps):JSX.Element {
 
   return (
-    <article className={type === Type.Main ? 'cities__place-card place-card' : 'near-places__card place-card'} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <article className={type === Type.Main ? 'cities__place-card place-card' : 'near-places__card place-card'} onMouseEnter={() => onMouseEnter(offer.id)} onMouseLeave={() => onMouseLeave()}>
       {type === Type.Main && offer.isPremium ? (
         <div className="place-card__mark">
           <span>Premium</span>
@@ -73,4 +84,5 @@ function Card({onMouseEnter, onMouseLeave, offer, type}: CardProps):JSX.Element 
   );
 }
 
-export default Card;
+export {Card};
+export default connector(Card);

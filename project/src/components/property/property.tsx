@@ -171,7 +171,7 @@ function Property({currentCityOffers}: PropertyProps):JSX.Element {
           <section className="property__map map">
             <Map
               currentCityOffers={currentCityOffers}
-              selectedOffer={undefined}
+              selectedOfferId={null}
             />
           </section>
         </section>

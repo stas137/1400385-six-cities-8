@@ -1,14 +1,19 @@
 import CardsList from '../cards-list/cards-list';
 import Logo from '../logo/logo';
 import CitiesList from '../cities-list/cities-list';
+import SortOptions from '../sort-options/sort-options';
 import Map from '../map/map';
 import {Type} from '../../const';
+import {Offer} from '../../types/offers';
 import {connect, ConnectedProps} from 'react-redux';
 import {State} from '../../types/state';
 
-const mapStateToProps = ({currentCity, offers}: State) => ({
+const mapStateToProps = ({currentCity, currentOption, selectedOfferId, offers, listOptions}: State) => ({
   currentCity,
+  currentOption,
+  selectedOfferId,
   offers,
+  listOptions,
 });
 
 const connector = connect(mapStateToProps);
@@ -16,8 +21,34 @@ const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function Main(props: PropsFromRedux):JSX.Element {
-  const {currentCity, offers} = props;
+  const {currentCity, currentOption, selectedOfferId, offers, listOptions} = props;
   const currentCityOffers = offers.filter((offer) => offer.city === currentCity);
+
+  let currentCityOffersAfterSort = [...currentCityOffers];
+
+  const compareLowToHigh = (a:Offer, b:Offer) => (a.price > b.price ? 1 : -1);
+  const compareHighToLow = (a:Offer, b:Offer) => (a.price > b.price ? -1 : 1);
+  const compareTopRated = (a:Offer, b:Offer) => (a.rate > b.rate ? -1 : 1);
+
+  const onChangeActiveOption = () => {
+
+    switch (currentOption) {
+      case 'Price: low to high':
+        currentCityOffersAfterSort = [...currentCityOffers].sort(compareLowToHigh);
+        break;
+      case 'Price: high to low':
+        currentCityOffersAfterSort = [...currentCityOffers].sort(compareHighToLow);
+        break;
+      case 'Top rated first':
+        currentCityOffersAfterSort = [...currentCityOffers].sort(compareTopRated);
+        break;
+      default:
+        currentCityOffersAfterSort = [...currentCityOffers];
+        break;
+    }
+  };
+
+  onChangeActiveOption();
 
   return (
     <div className="page page--gray page--main">
@@ -66,16 +97,13 @@ function Main(props: PropsFromRedux):JSX.Element {
                     <use xlinkHref="#icon-arrow-select"></use>
                   </svg>
                 </span>
-                <ul className="places__options places__options--custom places__options--opened">
-                  <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                  <li className="places__option" tabIndex={0}>Price: low to high</li>
-                  <li className="places__option" tabIndex={0}>Price: high to low</li>
-                  <li className="places__option" tabIndex={0}>Top rated first</li>
-                </ul>
+                <SortOptions
+                  listOptions={listOptions}
+                />
               </form>
               <div className="cities__places-list places__list tabs__content">
                 <CardsList
-                  currentCityOffers={currentCityOffers}
+                  currentCityOffers={currentCityOffersAfterSort}
                   type={Type.Main}
                 />
               </div>
@@ -83,8 +111,8 @@ function Main(props: PropsFromRedux):JSX.Element {
             <div className="cities__right-section">
               <section className="cities__map map">
                 <Map
-                  currentCityOffers={currentCityOffers}
-                  selectedOffer={currentCityOffers[0]}
+                  currentCityOffers={currentCityOffersAfterSort}
+                  selectedOfferId={selectedOfferId}
                 />
               </section>
             </div>
