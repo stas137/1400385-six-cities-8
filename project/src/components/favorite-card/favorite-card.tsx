@@ -27,14 +27,14 @@ function FavoriteCard({offer}: AppProps):JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${(offer.rate / 5) * 100}%`}}></span>
+            <span style={{width: `${(offer.rating / 5) * 100}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
           <a href="/#">{offer.title}</a>
         </h2>
-        <p className="place-card__type">{offer.propertyType}</p>
+        <p className="place-card__type">{offer.type}</p>
       </div>
     </article>
   );

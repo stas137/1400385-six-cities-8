@@ -7,7 +7,7 @@ type FavoritiesProps = {
 };
 
 function Favorites({offers}: FavoritiesProps):JSX.Element {
-  const offerCities = offers.map((offer) => offer.city);
+  const offerCities = offers.map((offer) => offer.city.name);
   const uniqCities = [...new Set(offerCities)];
 
   return (

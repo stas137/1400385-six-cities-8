@@ -18,7 +18,7 @@ function FavoriteList({city, offers}: FavoriteListProp):JSX.Element {
       </div>
       <div className="favorites__places">
         {
-          offers.filter((offer) => (offer.city === city) && (offer.isFavorite)).map((offer) => (
+          offers.filter((offer) => (offer.city.name === city) && (offer.isFavorite)).map((offer) => (
             <FavoriteCard
               key={offer.id}
               offer={offer}

@@ -1,9 +1,8 @@
-import {nanoid} from 'nanoid';
-import {Offers} from '../types/offers';
+//import {Offers} from '../types/offers';
 
-export const offers: Offers = [
+export const offers = [
   {
-    id: nanoid(),
+    id: 1,
     lat: 52.3909553943508,
     lng: 4.85309666406198,
     city: 'Amsterdam',
@@ -44,7 +43,7 @@ export const offers: Offers = [
     ],
   },
   {
-    id: nanoid(),
+    id: 2,
     lat: 52.369553943508,
     lng: 4.85309666406198,
     city: 'Amsterdam',
@@ -72,7 +71,7 @@ export const offers: Offers = [
     comments: [],
   },
   {
-    id: nanoid(),
+    id: 3,
     lat: 52.3909553943508,
     lng: 4.929309666406198,
     city: 'Amsterdam',
@@ -100,7 +99,7 @@ export const offers: Offers = [
     comments: [],
   },
   {
-    id: nanoid(),
+    id: 4,
     lat: 52.3909553943508,
     lng: 4.939309666406198,
     city: 'Amsterdam',
@@ -128,7 +127,7 @@ export const offers: Offers = [
     comments: [],
   },
   {
-    id: nanoid(),
+    id: 5,
     lat: 50.9333,
     lng: 6.95,
     city: 'Cologne',
@@ -156,7 +155,7 @@ export const offers: Offers = [
     comments: [],
   },
   {
-    id: nanoid(),
+    id: 6,
     lat: 48.8534,
     lng: 2.3488,
     city: 'Paris',
@@ -184,7 +183,7 @@ export const offers: Offers = [
     comments: [],
   },
   {
-    id: nanoid(),
+    id: 7,
     lat: 53.5753,
     lng: 10.0153,
     city: 'Hamburg',
@@ -212,7 +211,7 @@ export const offers: Offers = [
     comments: [],
   },
   {
-    id: nanoid(),
+    id: 8,
     lat: 50.8504,
     lng: 4.34878,
     city: 'Brussels',
@@ -240,7 +239,7 @@ export const offers: Offers = [
     comments: [],
   },
   {
-    id: nanoid(),
+    id: 9,
     lat: 51.2217,
     lng: 6.77616,
     city: 'Dusseldorf',

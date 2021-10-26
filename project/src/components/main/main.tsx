@@ -4,13 +4,14 @@ import CitiesList from '../cities-list/cities-list';
 import SortOptions from '../sort-options/sort-options';
 import Map from '../map/map';
 import {Type} from '../../const';
-import {Offer} from '../../types/offers';
+import {sortCurrentCityOffers} from '../../common';
 import {connect, ConnectedProps} from 'react-redux';
 import {State} from '../../types/state';
+import {useState} from 'react';
 
-const mapStateToProps = ({currentCity, currentOption, selectedOfferId, offers, listOptions}: State) => ({
+const mapStateToProps = ({currentCity, selectedSort, selectedOfferId, offers, listOptions}: State) => ({
   currentCity,
-  currentOption,
+  selectedSort,
   selectedOfferId,
   offers,
   listOptions,
@@ -21,34 +22,11 @@ const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function Main(props: PropsFromRedux):JSX.Element {
-  const {currentCity, currentOption, selectedOfferId, offers, listOptions} = props;
-  const currentCityOffers = offers.filter((offer) => offer.city === currentCity);
 
-  let currentCityOffersAfterSort = [...currentCityOffers];
-
-  const compareLowToHigh = (a:Offer, b:Offer) => (a.price > b.price ? 1 : -1);
-  const compareHighToLow = (a:Offer, b:Offer) => (a.price > b.price ? -1 : 1);
-  const compareTopRated = (a:Offer, b:Offer) => (a.rate > b.rate ? -1 : 1);
-
-  const onChangeActiveOption = () => {
-
-    switch (currentOption) {
-      case 'Price: low to high':
-        currentCityOffersAfterSort = [...currentCityOffers].sort(compareLowToHigh);
-        break;
-      case 'Price: high to low':
-        currentCityOffersAfterSort = [...currentCityOffers].sort(compareHighToLow);
-        break;
-      case 'Top rated first':
-        currentCityOffersAfterSort = [...currentCityOffers].sort(compareTopRated);
-        break;
-      default:
-        currentCityOffersAfterSort = [...currentCityOffers];
-        break;
-    }
-  };
-
-  onChangeActiveOption();
+  const {currentCity, selectedSort, selectedOfferId, offers, listOptions} = props;
+  const [sortToggle, setSortToggle] = useState<boolean>(false);
+  const currentCityOffers = offers.filter((offer) => offer.city.name === currentCity);
+  const currentCityOffersAfterSort = sortCurrentCityOffers(selectedSort, currentCityOffers);
 
   return (
     <div className="page page--gray page--main">
@@ -92,14 +70,17 @@ function Main(props: PropsFromRedux):JSX.Element {
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-                  <svg className="places__sorting-arrow" width="7" height="4">
+                  {selectedSort}
+                  <svg className="places__sorting-arrow" width="7" height="4" onClick={() => setSortToggle(!sortToggle)}>
                     <use xlinkHref="#icon-arrow-select"></use>
                   </svg>
                 </span>
-                <SortOptions
-                  listOptions={listOptions}
-                />
+                {
+                  sortToggle ?
+                    <SortOptions
+                      listOptions={listOptions}
+                    /> : ''
+                }
               </form>
               <div className="cities__places-list places__list tabs__content">
                 <CardsList

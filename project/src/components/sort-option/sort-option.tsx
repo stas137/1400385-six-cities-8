@@ -1,7 +1,7 @@
 import {State} from '../../types/state';
 import {Dispatch} from 'redux';
 import {Actions} from '../../types/action';
-import {changeOption} from '../../store/action';
+import {changeSort} from '../../store/action';
 import {connect, ConnectedProps} from 'react-redux';
 
 type SortOptionProps = {
@@ -9,13 +9,13 @@ type SortOptionProps = {
   nameOption: string,
 }
 
-const mapStateToProps = ({currentOption}: State) => ({
-  currentOption,
+const mapStateToProps = ({selectedSort}: State) => ({
+  selectedSort,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
-  onChangeOption(nameOption: string) {
-    dispatch(changeOption(nameOption));
+  onChangeSort(nameSort: string) {
+    dispatch(changeSort(nameSort));
   },
 });
 
@@ -24,9 +24,9 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & SortOptionProps;
 
-function SortOption({indexOption, nameOption, currentOption, onChangeOption}: ConnectedComponentProps):JSX.Element {
+function SortOption({indexOption, nameOption, selectedSort, onChangeSort}: ConnectedComponentProps):JSX.Element {
   return (
-    <li className={currentOption === nameOption ? 'places__option places__option--active' : 'places__option'} tabIndex={indexOption} onClick={() => onChangeOption(nameOption)}>{nameOption}</li>
+    <li className={selectedSort === nameOption ? 'places__option places__option--active' : 'places__option'} tabIndex={indexOption} onClick={() => onChangeSort(nameOption)}>{nameOption}</li>
   );
 }
 

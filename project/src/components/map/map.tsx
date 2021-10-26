@@ -7,7 +7,7 @@ import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
   currentCityOffers: Offers,
-  selectedOfferId: string | null,
+  selectedOfferId: number | null,
 }
 
 function Map({currentCityOffers, selectedOfferId}: MapProps):JSX.Element {
@@ -33,10 +33,10 @@ function Map({currentCityOffers, selectedOfferId}: MapProps):JSX.Element {
 
       if (currentCityOffers[0]) {
         map.setView({
-          lat: currentCityOffers[0].lat,
-          lng: currentCityOffers[0].lng,
+          lat: currentCityOffers[0].city.location.latitude,
+          lng: currentCityOffers[0].city.location.longitude,
         },
-        10,
+        currentCityOffers[0].city.location.zoom,
         );
       }
 
@@ -45,8 +45,8 @@ function Map({currentCityOffers, selectedOfferId}: MapProps):JSX.Element {
       const markerList: Marker[] = [];
       currentCityOffers.forEach((offer) => {
         const marker = new Marker({
-          lat: offer.lat,
-          lng: offer.lng,
+          lat: offer.location.latitude,
+          lng: offer.location.longitude,
         });
 
         marker
@@ -61,7 +61,7 @@ function Map({currentCityOffers, selectedOfferId}: MapProps):JSX.Element {
 
       setPoints(markerList);
     }
-  }, [map, currentCityOffers, selectedOfferId, points]);
+  }, [map, points, currentCityOffers, selectedOfferId]);
 
   return (
     <div
