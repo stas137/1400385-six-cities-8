@@ -10,13 +10,14 @@ import {State} from '../../types/state';
 import {useState} from 'react';
 import {Link} from 'react-router-dom';
 
-const mapStateToProps = ({currentCity, selectedSort, selectedOfferId, offers, listOptions, authorizationStatus}: State) => ({
+const mapStateToProps = ({currentCity, selectedSort, selectedOfferId, offers, listOptions, authorizationStatus, login}: State) => ({
   currentCity,
   selectedSort,
   selectedOfferId,
   offers,
   listOptions,
   authorizationStatus,
+  login,
 });
 
 const connector = connect(mapStateToProps);
@@ -25,7 +26,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function Main(props: PropsFromRedux):JSX.Element {
 
-  const {currentCity, selectedSort, selectedOfferId, offers, listOptions, authorizationStatus} = props;
+  const {currentCity, selectedSort, selectedOfferId, offers, listOptions, authorizationStatus, login} = props;
   const [sortToggle, setSortToggle] = useState<boolean>(false);
   const currentCityOffers = offers.filter((offer) => offer.city.name === currentCity);
   const currentCityOffersAfterSort = sortCurrentCityOffers(selectedSort, currentCityOffers);
@@ -45,7 +46,7 @@ function Main(props: PropsFromRedux):JSX.Element {
                     <div className="header__avatar-wrapper user__avatar-wrapper"></div>
                     {
                       authorizationStatus === AuthorizationStatus.Auth
-                        ? <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                        ? <span className="header__user-name user__name">{login}</span>
                         : ''
                     }
                   </a>

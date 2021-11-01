@@ -38,3 +38,8 @@ export const requireLogout = (authStatus: AuthorizationStatus) => ({
   type: ActionType.RequireLogout,
   payload: authStatus,
 } as const);
+
+export const saveLogin = (email: string) => ({
+  type: ActionType.SaveLogin,
+  payload: email,
+} as const);

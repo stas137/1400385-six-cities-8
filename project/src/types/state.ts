@@ -9,4 +9,5 @@ export type State = {
   listOptions: string[],
   authorizationStatus: AuthorizationStatus,
   isDataLoaded: boolean,
+  login: string,
 };
