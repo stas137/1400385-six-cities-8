@@ -50,5 +50,5 @@ export const adaptToClient = (data: OffersFromServer): Offers => {
 
     return offer;
   });
-  return <Offers>[...offers];
+  return [...offers] as Offers;
 };

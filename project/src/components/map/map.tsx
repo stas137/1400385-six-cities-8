@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState} from 'react';
+import React, {useRef, useEffect} from 'react';
 import {Offers} from '../../types/offers';
 import useMap from '../../hooks/use-map';
 import {Icon, Marker} from 'leaflet';
@@ -13,7 +13,6 @@ type MapProps = {
 function Map({currentCityOffers, selectedOfferId}: MapProps):JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, currentCityOffers);
-  const [points, setPoints] = useState<Marker[]>([]);
 
   useEffect(() => {
 
@@ -40,8 +39,6 @@ function Map({currentCityOffers, selectedOfferId}: MapProps):JSX.Element {
         );
       }
 
-      points.forEach((point) => map.removeLayer(point));
-
       const markerList: Marker[] = [];
       currentCityOffers.forEach((offer) => {
         const marker = new Marker({
@@ -59,9 +56,9 @@ function Map({currentCityOffers, selectedOfferId}: MapProps):JSX.Element {
         markerList.push(marker);
       });
 
-      setPoints(markerList);
+      return () => {markerList.forEach((point) => map.removeLayer(point));};
     }
-  }, [map, points, currentCityOffers, selectedOfferId]);
+  }, [map, currentCityOffers, selectedOfferId]);
 
   return (
     <div

@@ -14,10 +14,9 @@ export const fetchOffersAction = (): ThunkActionResult =>
 
 export const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    await api.get(APIRoute.Login)
-      .then(() => {
-        dispatch(requireAuthorization(AuthorizationStatus.Auth));
-      });
+    api.get(APIRoute.Login).then(() => {
+      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    });
   };
 
 export const loginAction = ({login: email, password}: AuthData): ThunkActionResult =>

@@ -3,18 +3,20 @@ import Logo from '../logo/logo';
 import CitiesList from '../cities-list/cities-list';
 import SortOptions from '../sort-options/sort-options';
 import Map from '../map/map';
-import {Type} from '../../const';
+import {AppRoute, AuthorizationStatus, Type} from '../../const';
 import {sortCurrentCityOffers} from '../../common';
 import {connect, ConnectedProps} from 'react-redux';
 import {State} from '../../types/state';
 import {useState} from 'react';
+import {Link} from 'react-router-dom';
 
-const mapStateToProps = ({currentCity, selectedSort, selectedOfferId, offers, listOptions}: State) => ({
+const mapStateToProps = ({currentCity, selectedSort, selectedOfferId, offers, listOptions, authorizationStatus}: State) => ({
   currentCity,
   selectedSort,
   selectedOfferId,
   offers,
   listOptions,
+  authorizationStatus,
 });
 
 const connector = connect(mapStateToProps);
@@ -23,7 +25,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function Main(props: PropsFromRedux):JSX.Element {
 
-  const {currentCity, selectedSort, selectedOfferId, offers, listOptions} = props;
+  const {currentCity, selectedSort, selectedOfferId, offers, listOptions, authorizationStatus} = props;
   const [sortToggle, setSortToggle] = useState<boolean>(false);
   const currentCityOffers = offers.filter((offer) => offer.city.name === currentCity);
   const currentCityOffersAfterSort = sortCurrentCityOffers(selectedSort, currentCityOffers);
@@ -41,13 +43,21 @@ function Main(props: PropsFromRedux):JSX.Element {
                 <li className="header__nav-item user">
                   <a className="header__nav-link header__nav-link--profile" href="/#">
                     <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                    {
+                      authorizationStatus === AuthorizationStatus.Auth
+                        ? <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                        : ''
+                    }
                   </a>
                 </li>
                 <li className="header__nav-item">
-                  <a className="header__nav-link" href="/#">
-                    <span className="header__signout">Sign out</span>
-                  </a>
+                  <Link className="header__nav-link" to={AppRoute.SignIn}>
+                    {
+                      authorizationStatus === AuthorizationStatus.Auth
+                        ? <span className="header__signout">Sign out</span>
+                        : <span className="header__signin">Sign in</span>
+                    }
+                  </Link>
                 </li>
               </ul>
             </nav>

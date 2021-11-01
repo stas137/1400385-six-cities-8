@@ -1,5 +1,4 @@
-import {Offers} from './offers';
-import {AuthorizationStatus} from '../const';
+import {changeCity, changeSort, loadOffers, setActiveCard, requireAuthorization, requireLogout} from '../store/action';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {AxiosInstance} from 'axios';
 import {State} from './state';
@@ -14,37 +13,13 @@ export enum ActionType {
   RequireLogout = 'require-logout',
 }
 
-export type ChangeCityAction = {
-  type: ActionType.ChangeCity,
-  payload: string,
-}
-
-export type ChangeSortAction = {
-  type: ActionType.ChangeSort,
-  payload: string,
-}
-
-export type MouseAction = {
-  type: ActionType.MouseEnter | ActionType.MouseLeave,
-  payload: number | null,
-}
-
-export type LoadOffers = {
-  type: ActionType.LoadOffers,
-  payload: Offers,
-}
-
-export type RequireAuthorization = {
-  type: ActionType.RequireAuthorization,
-  payload: AuthorizationStatus,
-}
-
-export type RequireLogout = {
-  type: ActionType.RequireLogout,
-  payload: AuthorizationStatus,
-}
-
-export type Actions = ChangeCityAction | ChangeSortAction | MouseAction | LoadOffers | RequireAuthorization | RequireLogout;
+export type Actions =
+  | ReturnType<typeof changeCity>
+  | ReturnType<typeof changeSort>
+  | ReturnType<typeof setActiveCard>
+  | ReturnType<typeof loadOffers>
+  | ReturnType<typeof requireAuthorization>
+  | ReturnType<typeof requireLogout>;
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
 

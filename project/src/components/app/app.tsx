@@ -1,5 +1,5 @@
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {AppRoute} from '../../const';
 import PrivateRoute from '../private-route/private-route';
 import Main from '../main/main';
 import Login from '../login/login';
@@ -44,7 +44,6 @@ function App({currentCity, offers, authorizationStatus, isDataLoaded}: PropsFrom
           exact
           path={AppRoute.Favorites}
           render={() => <Favorites offers={offers}/>}
-          authorizationStatus={AuthorizationStatus.Auth}
         >
         </PrivateRoute>
         <Route exact path={AppRoute.Room}>
