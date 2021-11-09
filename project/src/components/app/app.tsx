@@ -1,4 +1,4 @@
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {Router as BrowserRouter, Route, Switch} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import PrivateRoute from '../private-route/private-route';
 import Main from '../main/main';
@@ -10,6 +10,7 @@ import LoadingScreen from '../loading-screen/loading-screen';
 import {State} from '../../types/state';
 import {connect, ConnectedProps} from 'react-redux';
 import {isCheckedAuth} from '../../common';
+import browserHistory from '../../browser-history';
 
 const mapStateToProps = ({currentCity, offers, authorizationStatus, isDataLoaded}: State) => ({
   currentCity,
@@ -32,7 +33,7 @@ function App({currentCity, offers, authorizationStatus, isDataLoaded}: PropsFrom
   }
 
   return (
-    <BrowserRouter>
+    <BrowserRouter history={browserHistory}>
       <Switch>
         <Route exact path={AppRoute.Main}>
           <Main />
@@ -43,7 +44,7 @@ function App({currentCity, offers, authorizationStatus, isDataLoaded}: PropsFrom
         <PrivateRoute
           exact
           path={AppRoute.Favorites}
-          render={() => <Favorites offers={offers}/>}
+          render={() => <Favorites />}
         >
         </PrivateRoute>
         <Route exact path={AppRoute.Room}>

@@ -1,5 +1,6 @@
 import {Offers} from '../types/offers';
 import {AuthorizationStatus} from '../const';
+import {UserData} from './auth-data';
 
 export type State = {
   currentCity: string,
@@ -9,5 +10,5 @@ export type State = {
   listOptions: string[],
   authorizationStatus: AuthorizationStatus,
   isDataLoaded: boolean,
-  login: string,
+  userData: UserData,
 };

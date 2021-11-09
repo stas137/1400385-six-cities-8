@@ -10,7 +10,13 @@ const initialState = {
   listOptions: ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'],
   authorizationStatus: AuthorizationStatus.Unknown,
   isDataLoaded: false,
-  login: '',
+  userData: {
+    avatarUrl: '',
+    email: '',
+    id: 0,
+    isPro: false,
+    name: '',
+  },
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
@@ -27,8 +33,8 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return {...state, authorizationStatus: action.payload, isDataLoaded: true};
     case ActionType.RequireLogout:
       return {...state, authorizationStatus: AuthorizationStatus.NoAuth};
-    case ActionType.SaveLogin:
-      return {...state, login: action.payload};
+    case ActionType.SaveUserData:
+      return {...state, userData: action.payload};
     default:
       return state;
   }

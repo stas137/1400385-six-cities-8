@@ -1,12 +1,19 @@
 import Logo from '../logo/logo';
-import {Offers} from '../../types/offers';
 import FavoriteList from '../favorite-list/favorite-list';
+import {State} from '../../types/state';
+import {connect, ConnectedProps} from 'react-redux';
+import {AppRoute} from '../../const';
 
-type FavoritiesProps = {
-  offers: Offers,
-};
+const mapStateToProps = ({offers, userData}: State) => ({
+  offers,
+  userData,
+});
 
-function Favorites({offers}: FavoritiesProps):JSX.Element {
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function Favorites({offers, userData}: PropsFromRedux):JSX.Element {
   const offerCities = offers.map((offer) => offer.city.name);
   const uniqCities = [...new Set(offerCities)];
 
@@ -24,11 +31,14 @@ function Favorites({offers}: FavoritiesProps):JSX.Element {
                   <a className="header__nav-link header__nav-link--profile" href="/#">
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                    {
+                      <span className="header__user-name user__name">{userData.email}</span>
+                    }
+
                   </a>
                 </li>
                 <li className="header__nav-item">
-                  <a className="header__nav-link" href="/#">
+                  <a className="header__nav-link" href={AppRoute.SignIn}>
                     <span className="header__signout">Sign out</span>
                   </a>
                 </li>
@@ -65,4 +75,5 @@ function Favorites({offers}: FavoritiesProps):JSX.Element {
   );
 }
 
-export default Favorites;
+export {Favorites};
+export default connector(Favorites);

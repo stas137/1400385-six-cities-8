@@ -1,10 +1,11 @@
 import {ThunkActionResult} from '../types/action';
-import {loadOffers, requireAuthorization, requireLogout, saveLogin} from './action';
+import {loadOffers, requireAuthorization, requireLogout, saveUserData, redirectToRoute} from './action';
 import {saveToken, dropToken, Token} from '../services/token';
-import {APIRoute, AuthorizationStatus} from '../const';
+import {AppRoute, APIRoute, AuthorizationStatus, HttpCode} from '../const';
 import {Offer} from '../types/offers';
 import {AuthData} from '../types/auth-data';
 import {adaptToClient} from '../common';
+import {AxiosResponse} from 'axios';
 
 export const fetchOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -14,17 +15,20 @@ export const fetchOffersAction = (): ThunkActionResult =>
 
 export const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    api.get(APIRoute.Login).then(() => {
-      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    api.get(APIRoute.Login).then((responce: AxiosResponse) => {
+      if (responce.status !== HttpCode.Unauthorized) {
+        dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      }
     });
   };
 
 export const loginAction = ({login: email, password}: AuthData): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    const {data: {token}} = await api.post<{token: Token}>(APIRoute.Login, {email, password});
-    saveToken(token);
+    const {data} = await api.post<{'avatar_url': string, email: string, id: number, 'is_pro': boolean, name: string, token: Token}>(APIRoute.Login, {email, password});
+    saveToken(data.token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    dispatch(saveLogin(email));
+    dispatch(saveUserData({avatarUrl: data.avatar_url, email: data.email, id: data.id, isPro: data.is_pro, name: data.name}));
+    dispatch(redirectToRoute(AppRoute.Main));
   };
 
 

@@ -4,13 +4,25 @@ import ReviewsList from '../reviews-list/reviews-list';
 import Map from '../map/map';
 import {Offers} from '../../types/offers';
 import CardsList from '../cards-list/cards-list';
-import {Type} from '../../const';
+import {AppRoute, Type} from '../../const';
+import {State} from '../../types/state';
+import {connect, ConnectedProps} from 'react-redux';
+import {Link} from 'react-router-dom';
 
 type PropertyProps = {
   currentCityOffers: Offers,
 };
 
-function Property({currentCityOffers}: PropertyProps):JSX.Element {
+const mapStateToProps = ({userData}: State) => ({
+  userData,
+});
+
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & PropertyProps;
+
+function Property({currentCityOffers, userData}: ConnectedComponentProps):JSX.Element {
   return (
     <div className="page">
       <header className="header">
@@ -25,13 +37,15 @@ function Property({currentCityOffers}: PropertyProps):JSX.Element {
                   <a className="header__nav-link header__nav-link--profile" href="/#">
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                    {
+                      <span className="header__user-name user__name">{userData.email}</span>
+                    }
                   </a>
                 </li>
                 <li className="header__nav-item">
-                  <a className="header__nav-link" href="/#">
+                  <Link className="header__nav-link" to={AppRoute.SignIn}>
                     <span className="header__signout">Sign out</span>
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </nav>
@@ -191,4 +205,5 @@ function Property({currentCityOffers}: PropertyProps):JSX.Element {
   );
 }
 
-export default Property;
+export {Property};
+export default connector(Property);

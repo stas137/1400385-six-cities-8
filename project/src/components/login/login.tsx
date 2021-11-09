@@ -1,6 +1,6 @@
 import Logo from '../logo/logo';
 import {useRef, FormEvent} from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {connect, ConnectedProps} from 'react-redux';
 import {loginAction} from '../../store/api-actions';
 import {ThunkAppDispatch} from '../../types/action';
@@ -22,8 +22,6 @@ function Login(props: PropsFromRedux):JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
-  const history = useHistory();
-
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -32,7 +30,6 @@ function Login(props: PropsFromRedux):JSX.Element {
         login: loginRef.current.value,
         password: passwordRef.current.value,
       });
-      history.push(AppRoute.Main);
     }
   };
 
@@ -85,8 +82,8 @@ function Login(props: PropsFromRedux):JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link className="locations__item-link" to="/#">
-                <span>Amsterdam</span>
+              <Link className="locations__item-link" to={AppRoute.Main}>
+                <span>Paris</span>
               </Link>
             </div>
           </section>
