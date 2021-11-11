@@ -6,6 +6,11 @@ export type Comment = {
   user: Host,
 };
 
+export type CommentPost = {
+  comment: string,
+  rating: number,
+};
+
 export type CommentFromServer = {
   comment: string,
   date: Date,

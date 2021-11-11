@@ -2,7 +2,7 @@ import {ThunkActionResult} from '../types/action';
 import {loadOffer, loadOffers, loadOfferNearBy, loadOfferComments, redirectToRoute, requireAuthorization, requireLogout, saveUserData} from './action';
 import {dropToken, saveToken, Token} from '../services/token';
 import {APIRoute, AppRoute, AuthorizationStatus, HttpCode} from '../const';
-import {OffersFromServer} from '../types/offers';
+import {CommentPost, CommentsFromServer, OffersFromServer} from '../types/offers';
 import {AuthData} from '../types/auth-data';
 import {adaptToClientOffer, adaptToClientOffers, adaptToClientComments} from '../common';
 import {AxiosResponse} from 'axios';
@@ -54,6 +54,12 @@ export const loginAction = ({login: email, password}: AuthData): ThunkActionResu
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
     dispatch(saveUserData({avatarUrl: data.avatar_url, email: data.email, id: data.id, isPro: data.is_pro, name: data.name}));
     dispatch(redirectToRoute(AppRoute.Main));
+  };
+
+export const sendComment = ({rating, comment}: CommentPost, offerId: number): ThunkActionResult =>
+  async (dispatch, _getState, api) => {
+    const responseOfferIdComments = await api.post<CommentsFromServer>(`${APIRoute.Comments}/${offerId}`, {rating, comment});
+    dispatch(loadOfferComments(adaptToClientComments(responseOfferIdComments.data)));
   };
 
 

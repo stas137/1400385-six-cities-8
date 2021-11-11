@@ -151,7 +151,7 @@ function Property({currentCityOffers, offer, nearBy, comments, authorizationStat
                 />
                 {
                   authorizationStatus === AuthorizationStatus.Auth
-                    ? <FormComment />
+                    ? <FormComment offerId={offer.id} />
                     : ''
                 }
               </section>
