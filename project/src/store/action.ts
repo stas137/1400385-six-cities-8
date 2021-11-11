@@ -1,5 +1,5 @@
 import {ActionType} from '../types/action';
-import {Offers} from '../types/offers';
+import {Offers, Offer, Comments} from '../types/offers';
 import {AppRoute, AuthorizationStatus} from '../const';
 import {UserData} from '../types/auth-data';
 
@@ -28,6 +28,21 @@ export const setActiveCard = (selectedOfferId: number | null) => (
 export const loadOffers = (offers: Offers) => ({
   type: ActionType.LoadOffers,
   payload: offers,
+} as const);
+
+export const loadOffer = (offer: Offer) => ({
+  type: ActionType.LoadOffer,
+  payload: offer,
+} as const);
+
+export const loadOfferNearBy = (offers: Offers) => ({
+  type: ActionType.LoadOfferNearBy,
+  payload: offers,
+} as const);
+
+export const loadOfferComments = (comments: Comments) => ({
+  type: ActionType.LoadOfferComments,
+  payload: comments,
 } as const);
 
 export const requireAuthorization = (authStatus: AuthorizationStatus) => ({

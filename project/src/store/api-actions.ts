@@ -1,16 +1,20 @@
 import {ThunkActionResult} from '../types/action';
-import {loadOffers, requireAuthorization, requireLogout, saveUserData, redirectToRoute} from './action';
-import {saveToken, dropToken, Token} from '../services/token';
-import {AppRoute, APIRoute, AuthorizationStatus, HttpCode} from '../const';
-import {Offer} from '../types/offers';
+import {loadOffer, loadOffers, loadOfferNearBy, loadOfferComments, redirectToRoute, requireAuthorization, requireLogout, saveUserData} from './action';
+import {dropToken, saveToken, Token} from '../services/token';
+import {APIRoute, AppRoute, AuthorizationStatus, HttpCode} from '../const';
+import {OffersFromServer} from '../types/offers';
 import {AuthData} from '../types/auth-data';
-import {adaptToClient} from '../common';
+import {adaptToClientOffer, adaptToClientOffers, adaptToClientComments} from '../common';
 import {AxiosResponse} from 'axios';
+
+enum StatusCode {
+  Ok = 200,
+}
 
 export const fetchOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<Offer[]>(APIRoute.Offers);
-    dispatch(loadOffers(adaptToClient(data)));
+    const {data} = await api.get<OffersFromServer>(APIRoute.Offers);
+    dispatch(loadOffers(adaptToClientOffers(data)));
   };
 
 export const checkAuthAction = (): ThunkActionResult =>
@@ -20,6 +24,27 @@ export const checkAuthAction = (): ThunkActionResult =>
         dispatch(requireAuthorization(AuthorizationStatus.Auth));
       }
     });
+  };
+
+export const fetchOfferIdAction = (offerId: number): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const responseOfferId = await api.get(`${APIRoute.Offers}/${offerId}`);
+
+    if (responseOfferId.status === StatusCode.Ok) {
+      dispatch(loadOffer(adaptToClientOffer(responseOfferId.data)));
+
+      const responseOfferIdNearBy = await api.get(`${APIRoute.Offers}/${offerId}/nearby`);
+      dispatch(loadOfferNearBy(adaptToClientOffers(responseOfferIdNearBy.data)));
+
+      const responseOfferIdComments = await api.get(`${APIRoute.Comments}/${offerId}`);
+      dispatch(loadOfferComments(adaptToClientComments(responseOfferIdComments.data)));
+
+      const url = `offer/${offerId}`;
+      dispatch(redirectToRoute(url as AppRoute));
+    } else {
+      dispatch(redirectToRoute(AppRoute.NotFound));
+    }
+
   };
 
 export const loginAction = ({login: email, password}: AuthData): ThunkActionResult =>

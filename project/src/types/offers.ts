@@ -3,12 +3,15 @@ export type Comment = {
   date: Date,
   id: number,
   rating: number,
-  user: {
-    avatarUrl: string,
-    id: number,
-    isPro: boolean,
-    name: string,
-  }
+  user: Host,
+};
+
+export type CommentFromServer = {
+  comment: string,
+  date: Date,
+  id: number,
+  rating: number,
+  user: HostFromServer,
 };
 
 export type Location = {
@@ -29,6 +32,13 @@ export type Host = {
   name: string,
 };
 
+export type HostFromServer = {
+  'avatar_url': string,
+  id: number,
+  'is_pro': boolean,
+  name: string,
+};
+
 export type Offer = {
   bedrooms: number,
   city: City,
@@ -36,7 +46,7 @@ export type Offer = {
   goods: string[],
   host: Host,
   id: number,
-  images: string[];
+  images: string[],
   isFavorite: boolean,
   isPremium: boolean,
   location: Location,
@@ -46,7 +56,6 @@ export type Offer = {
   rating: number,
   title: string,
   type: string,
-  comments?: Comments,
 };
 
 export type OfferFromServer = {
@@ -55,17 +64,13 @@ export type OfferFromServer = {
   city: City,
   description: string,
   goods: string[],
-  host: Host,
+  host: HostFromServer,
   id: number,
   images: string[];
-  isFavorite?: boolean,
   'is_favorite'?: boolean,
-  isPremium?: boolean,
   'is_premium'?: boolean,
   location: Location,
-  maxAdults?: number,
   'max_adults'?: number,
-  previewImage?: string,
   'preview_image'?: string,
   price: number,
   rating: number,
@@ -76,3 +81,4 @@ export type OfferFromServer = {
 export type Offers = Offer[];
 export type OffersFromServer = OfferFromServer[];
 export type Comments = Comment[];
+export type CommentsFromServer = CommentFromServer[];

@@ -2,6 +2,9 @@ import {
   changeCity,
   changeSort,
   loadOffers,
+  loadOffer,
+  loadOfferNearBy,
+  loadOfferComments,
   setActiveCard,
   requireAuthorization,
   requireLogout,
@@ -18,6 +21,9 @@ export enum ActionType {
   MouseEnter = 'mouse-enter',
   MouseLeave = 'mouse-leave',
   LoadOffers = 'load-offers',
+  LoadOffer = 'load-offer',
+  LoadOfferNearBy = 'load-offer-near-by',
+  LoadOfferComments = 'load-offer-comments',
   RequireAuthorization = 'require-authorization',
   RequireLogout = 'require-logout',
   SaveUserData = 'save-user-data',
@@ -29,6 +35,9 @@ export type Actions =
   | ReturnType<typeof changeSort>
   | ReturnType<typeof setActiveCard>
   | ReturnType<typeof loadOffers>
+  | ReturnType<typeof loadOffer>
+  | ReturnType<typeof loadOfferNearBy>
+  | ReturnType<typeof loadOfferComments>
   | ReturnType<typeof requireAuthorization>
   | ReturnType<typeof requireLogout>
   | ReturnType<typeof saveUserData>

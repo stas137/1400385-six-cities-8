@@ -1,19 +1,28 @@
 import ReviewsItem from '../reviews-item/reviews-item';
-import {Offer} from '../../types/offers';
+import {Comments, Comment} from '../../types/offers';
 
-type ReviewsListProps = {
-  offer: Offer,
+type ReviewListProps = {
+  comments: Comments,
 }
 
-function ReviewsList({offer}: ReviewsListProps):JSX.Element {
+function ReviewsList({comments}: ReviewListProps):JSX.Element {
   return (
     <>
-      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{offer?.comments ? offer.comments.length : ''}</span></h2>
-      <ul className="reviews__list">
-        <ReviewsItem
-          offer={offer}
-        />
-      </ul>
+      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length ? comments.length : ''}</span></h2>
+      {
+        comments.length
+          ?
+          <ul className="reviews__list">
+            {
+              comments.map((comment: Comment) => (
+                <ReviewsItem
+                  key={comment.id}
+                  comment={comment}
+                />))
+            }
+          </ul>
+          : ''
+      }
     </>
   );
 }

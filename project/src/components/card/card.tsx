@@ -1,11 +1,12 @@
-import {Link} from 'react-router-dom';
+//import {Link} from 'react-router-dom';
 import {Offer} from '../../types/offers';
 import {Type} from '../../const';
-import {Actions} from '../../types/action';
+import {ThunkAppDispatch} from '../../types/action';
 import {setActiveCard} from '../../store/action';
 import {State} from '../../types/state';
-import {Dispatch} from 'redux';
+//import {Dispatch} from 'redux';
 import {connect, ConnectedProps} from 'react-redux';
+import {fetchOfferIdAction} from '../../store/api-actions';
 
 type CardProps = {
   offer: Offer,
@@ -16,9 +17,12 @@ const mapStateToProps = ({selectedOfferId}: State) => ({
   selectedOfferId,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onMouseAction(selectedOfferId: number | null) {
     dispatch(setActiveCard(selectedOfferId));
+  },
+  onClickOffer(offerId: number) {
+    dispatch(fetchOfferIdAction(offerId));
   },
 });
 
@@ -27,7 +31,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = CardProps & PropsFromRedux;
 
-function Card({onMouseAction, offer, type}: ConnectedComponentProps):JSX.Element {
+function Card({onMouseAction, onClickOffer, offer, type}: ConnectedComponentProps):JSX.Element {
 
   return (
     <article className={type === Type.Main ? 'cities__place-card place-card' : 'near-places__card place-card'} onMouseEnter={() => onMouseAction(offer.id)} onMouseLeave={() => onMouseAction(null)}>
@@ -70,9 +74,9 @@ function Card({onMouseAction, offer, type}: ConnectedComponentProps):JSX.Element
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`offer/${offer.id}`}>
+          <span style={{cursor: 'pointer'}} onClick={() => onClickOffer(offer.id)}>
             {offer.title}
-          </Link>
+          </span>
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>
