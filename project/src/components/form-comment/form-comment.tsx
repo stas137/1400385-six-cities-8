@@ -76,6 +76,8 @@ function FormComment({offerId, onSubmit}: ConnectedComponentProps):JSX.Element {
           setComment(e.target.value);
           if (comment.length >= 50) {
             setDisableSubmit(false);
+          } else {
+            setDisableSubmit(true);
           }
         }}
         placeholder="Tell how was your stay, what you like and what can be improved"
