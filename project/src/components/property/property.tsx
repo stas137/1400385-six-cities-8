@@ -1,66 +1,55 @@
-import Logo from '../logo/logo';
+//import Logo from '../logo/logo';
 import FormComment from '../form-comment/form-comment';
 import ReviewsList from '../reviews-list/reviews-list';
 import Map from '../map/map';
 import {Offers} from '../../types/offers';
 import CardsList from '../cards-list/cards-list';
-import {AppRoute, AuthorizationStatus, Type} from '../../const';
+import {AuthorizationStatus, Type} from '../../const';
 import {State} from '../../types/state';
 import {connect, ConnectedProps} from 'react-redux';
-import {Link} from 'react-router-dom';
+//import {Link} from 'react-router-dom';
+import Header from '../header/header';
+import {ThunkAppDispatch} from '../../types/action';
+import {logoutAction} from '../../store/api-actions';
+import {SyntheticEvent} from 'react';
 
 type PropertyProps = {
   currentCityOffers: Offers,
 };
 
-const mapStateToProps = ({offer, nearBy, comments, authorizationStatus, userData}: State) => ({
-  offer,
-  nearBy,
-  comments,
-  authorizationStatus,
-  userData,
+const mapStateToProps = ({DATA, USER}: State) => ({
+  offer: DATA.offer,
+  nearBy: DATA.nearBy,
+  comments: DATA.comments,
+  authorizationStatus: USER.authorizationStatus,
+  userData: USER.userData,
 });
 
-const connector = connect(mapStateToProps);
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  onClickLogout() {
+    dispatch(logoutAction());
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & PropertyProps;
 
-function Property({currentCityOffers, offer, nearBy, comments, authorizationStatus, userData}: ConnectedComponentProps):JSX.Element {
+function Property({currentCityOffers, offer, nearBy, comments, authorizationStatus, userData, onClickLogout}: ConnectedComponentProps):JSX.Element {
+
+  const onClickHandler = (e: SyntheticEvent<HTMLElement>) => {
+    e.preventDefault();
+    onClickLogout();
+  };
+
   return (
     <div className="page">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <Logo />
-            </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="/#">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    {
-                      <span className="header__user-name user__name">{userData.email}</span>
-                    }
-                  </a>
-                </li>
-                <li className="header__nav-item">
-                  <Link className="header__nav-link" to={AppRoute.SignIn}>
-                    {
-                      authorizationStatus === AuthorizationStatus.Auth
-                        ? <span className="header__signout">Sign out</span>
-                        : <span className="header__signin">Sign in</span>
-                    }
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </header>
-
+      <Header
+        authorizationStatus={authorizationStatus}
+        userData={userData}
+        onClickHandler={onClickHandler}
+      />
       <main className="page__main page__main--property">
         <section className="property">
           <div className="property__gallery-container container">

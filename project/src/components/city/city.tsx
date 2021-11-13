@@ -3,13 +3,14 @@ import {Dispatch} from 'redux';
 import {Actions} from '../../types/action';
 import {changeCity} from '../../store/action';
 import {connect, ConnectedProps} from 'react-redux';
+import {Link} from 'react-router-dom';
 
 type CityProps = {
   cityOffer: string;
 }
 
-const mapStateToProps = ({currentCity}: State) => ({
-  currentCity,
+const mapStateToProps = ({BOOK}: State) => ({
+  currentCity: BOOK.currentCity,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
@@ -26,9 +27,9 @@ type ConnectedComponentProps = PropsFromRedux & CityProps;
 function City({currentCity, cityOffer, onChangeCity}: ConnectedComponentProps): JSX.Element {
   return (
     <li className="locations__item">
-      <a className={currentCity === cityOffer ? 'locations__item-link tabs__item tabs__item--active' : 'locations__item-link tabs__item'} href="/#" onClick={() => onChangeCity(cityOffer)}>
+      <Link className={currentCity === cityOffer ? 'locations__item-link tabs__item tabs__item--active' : 'locations__item-link tabs__item'} to="/" onClick={() => onChangeCity(cityOffer)}>
         <span>{cityOffer}</span>
-      </a>
+      </Link>
     </li>
   );
 }

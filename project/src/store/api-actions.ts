@@ -59,7 +59,9 @@ export const loginAction = ({login: email, password}: AuthData): ThunkActionResu
 export const sendComment = ({rating, comment}: CommentPost, offerId: number): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     const responseOfferIdComments = await api.post<CommentsFromServer>(`${APIRoute.Comments}/${offerId}`, {rating, comment});
-    dispatch(loadOfferComments(adaptToClientComments(responseOfferIdComments.data)));
+    if (responseOfferIdComments.status === StatusCode.Ok) {
+      dispatch(loadOfferComments(adaptToClientComments(responseOfferIdComments.data)));
+    }
   };
 
 
@@ -68,4 +70,5 @@ export const logoutAction = (): ThunkActionResult =>
     await api.delete(APIRoute.Logout);
     dropToken();
     dispatch(requireLogout(AuthorizationStatus.NoAuth));
+    dispatch(redirectToRoute(AppRoute.Main));
   };

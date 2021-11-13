@@ -55,13 +55,15 @@ const initialState = {
   },
 };
 
-const reducer = (state: State = initialState, action: Actions): State => {
-  switch (action.type) {
+const reducer = () => {
+/*  switch (action.type) {
     case ActionType.ChangeCity:
       return {...state, currentCity: action.payload, selectedSort: 'Popular'};
     case ActionType.ChangeSort:
       return {...state, selectedSort: action.payload};
     case ActionType.MouseEnter:
+      return {...state, selectedOfferId: action.payload};
+    case ActionType.MouseLeave:
       return {...state, selectedOfferId: action.payload};
     case ActionType.LoadOffers:
       return {...state, offers: action.payload};
@@ -78,8 +80,8 @@ const reducer = (state: State = initialState, action: Actions): State => {
     case ActionType.SaveUserData:
       return {...state, userData: action.payload};
     default:
-      return state;
-  }
+      return state;*/
+  //}
 };
 
 export {reducer};

@@ -11,12 +11,15 @@ import {State} from '../../types/state';
 import {connect, ConnectedProps} from 'react-redux';
 import {isCheckedAuth} from '../../common';
 import browserHistory from '../../browser-history';
+import {getAuthorizationStatus} from '../../store/user-process/selectors';
+import {getCurrentCity} from '../../store/book-process/selectors';
+import {getOffers} from '../../store/offers-data/selectors';
 
-const mapStateToProps = ({currentCity, offers, authorizationStatus, isDataLoaded}: State) => ({
-  currentCity,
-  offers,
-  authorizationStatus,
-  isDataLoaded,
+const mapStateToProps = (state: State) => ({
+  currentCity: getCurrentCity(state),
+  offers: getOffers(state),
+  authorizationStatus: getAuthorizationStatus(state),
+  isDataLoaded: state.DATA.isDataLoaded,
 });
 
 const connector = connect(mapStateToProps);

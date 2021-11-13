@@ -1,71 +1,58 @@
+import {SyntheticEvent, useState} from 'react';
 import CardsList from '../cards-list/cards-list';
-import Logo from '../logo/logo';
 import CitiesList from '../cities-list/cities-list';
 import SortOptions from '../sort-options/sort-options';
 import Map from '../map/map';
-import {AppRoute, AuthorizationStatus, Type} from '../../const';
+import {Type} from '../../const';
 import {sortCurrentCityOffers} from '../../common';
 import {connect, ConnectedProps} from 'react-redux';
 import {State} from '../../types/state';
-import {useState} from 'react';
-import {Link} from 'react-router-dom';
+import {getCurrentCity, getListOptions, getSelectedOfferId, getSelectedSort} from '../../store/book-process/selectors';
+import {ThunkAppDispatch} from '../../types/action';
+import {Offer} from '../../types/offers';
+import {logoutAction} from '../../store/api-actions';
+import {getOffers} from '../../store/offers-data/selectors';
+import {getAuthorizationStatus, getUserData} from '../../store/user-process/selectors';
+import Header from '../header/header';
 
-const mapStateToProps = ({currentCity, selectedSort, selectedOfferId, offers, listOptions, authorizationStatus, userData}: State) => ({
-  currentCity,
-  selectedSort,
-  selectedOfferId,
-  offers,
-  listOptions,
-  authorizationStatus,
-  userData,
+const mapStateToProps = (state: State) => ({
+  currentCity: getCurrentCity(state),
+  selectedSort: getSelectedSort(state),
+  selectedOfferId: getSelectedOfferId(state),
+  offers: getOffers(state),
+  listOptions: getListOptions(state),
+  authorizationStatus: getAuthorizationStatus(state),
+  userData: getUserData(state),
 });
 
-const connector = connect(mapStateToProps);
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  onClickLogout() {
+    dispatch(logoutAction());
+  },
+});
 
+const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function Main(props: PropsFromRedux):JSX.Element {
 
-  const {currentCity, selectedSort, selectedOfferId, offers, listOptions, authorizationStatus, userData} = props;
+  const {currentCity, selectedSort, selectedOfferId, offers, listOptions, authorizationStatus, userData, onClickLogout} = props;
   const [sortToggle, setSortToggle] = useState<boolean>(false);
-  const currentCityOffers = offers.filter((offer) => offer.city.name === currentCity);
+  const currentCityOffers = offers.filter((offer: Offer) => offer.city.name === currentCity);
   const currentCityOffersAfterSort = sortCurrentCityOffers(selectedSort, currentCityOffers);
+
+  const onClickHandler = (e: SyntheticEvent<HTMLElement>) => {
+    e.preventDefault();
+    onClickLogout();
+  };
 
   return (
     <div className="page page--gray page--main">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <Logo />
-            </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="/#">
-                    <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                    {
-                      authorizationStatus === AuthorizationStatus.Auth
-                        ? <span className="header__user-name user__name">{userData.email}</span>
-                        : ''
-                    }
-                  </a>
-                </li>
-                <li className="header__nav-item">
-                  <Link className="header__nav-link" to={AppRoute.SignIn}>
-                    {
-                      authorizationStatus === AuthorizationStatus.Auth
-                        ? <span className="header__signout">Sign out</span>
-                        : <span className="header__signin">Sign in</span>
-                    }
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </header>
-
+      <Header
+        authorizationStatus={authorizationStatus}
+        userData={userData}
+        onClickHandler={onClickHandler}
+      />
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">

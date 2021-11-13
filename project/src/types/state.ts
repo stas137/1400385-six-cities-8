@@ -1,8 +1,10 @@
-import {Offers, Offer, Comments} from '../types/offers';
+/*import {Offers, Offer, Comments} from '../types/offers';
 import {AuthorizationStatus} from '../const';
-import {UserData} from './auth-data';
+import {UserData} from './auth-data';*/
+import {RootState} from '../store/root-reducer';
 
-export type State = {
+export type State = RootState;
+/*export type State = {
   currentCity: string,
   selectedSort: string,
   selectedOfferId: number | null,
@@ -14,4 +16,4 @@ export type State = {
   authorizationStatus: AuthorizationStatus,
   isDataLoaded: boolean,
   userData: UserData,
-};
+};*/

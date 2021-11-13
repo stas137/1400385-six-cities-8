@@ -7,10 +7,10 @@ import {connect, ConnectedProps} from 'react-redux';
 type SortOptionProps = {
   indexOption: number,
   nameOption: string,
-}
+};
 
-const mapStateToProps = ({selectedSort}: State) => ({
-  selectedSort,
+const mapStateToProps = ({BOOK}: State) => ({
+  selectedSort: BOOK.selectedSort,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({

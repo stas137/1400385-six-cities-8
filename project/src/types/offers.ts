@@ -1,3 +1,5 @@
+import {AuthorizationStatus} from '../const';
+
 export type Comment = {
   comment: string,
   date: Date,
@@ -64,7 +66,6 @@ export type Offer = {
 };
 
 export type OfferFromServer = {
-  /*[key: string]: string | number | object;*/
   bedrooms: number,
   city: City,
   description: string,
@@ -81,6 +82,65 @@ export type OfferFromServer = {
   rating: number,
   title: string,
   type: string,
+};
+
+export type OffersData = {
+  offers: Offer[],
+  offer: {
+    bedrooms: number,
+    city: {
+      location: {
+        latitude: number,
+        longitude: number,
+        zoom: number,
+      },
+      name: string,
+    },
+    description: string,
+    goods: string[],
+    host: {
+      avatarUrl: string,
+      id: number,
+      isPro: boolean,
+      name: string,
+    },
+    id: number,
+    images: string[],
+    isFavorite: boolean,
+    isPremium: boolean,
+    location: {
+      latitude: number,
+      longitude: number,
+      zoom: number,
+    },
+    maxAdults: number,
+    previewImage: string,
+    price: number,
+    rating: number,
+    title: string,
+    type: string,
+  },
+  nearBy: Offer[],
+  comments: Comment[],
+  isDataLoaded: boolean,
+};
+
+export type UserProcess = {
+  authorizationStatus: AuthorizationStatus,
+  userData: {
+    avatarUrl: string,
+    email: string,
+    id: number,
+    isPro: boolean,
+    name: string,
+  },
+};
+
+export type BookProcess = {
+  currentCity: string,
+  selectedSort: string,
+  selectedOfferId: number | null,
+  listOptions: string[],
 };
 
 export type Offers = Offer[];

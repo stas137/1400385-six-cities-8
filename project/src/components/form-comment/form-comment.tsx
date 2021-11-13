@@ -23,12 +23,15 @@ function FormComment({offerId, onSubmit}: ConnectedComponentProps):JSX.Element {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
   const [disableSubmit, setDisableSubmit] = useState(true);
+  const [disabledTextarea, setDisabledTextarea] = useState(false);
 
   const countStar = 5;
   const starArray = Array.from({length: countStar}, (value, key) => key).reverse();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    setDisabledTextarea(true);
 
     onSubmit({
       rating,
@@ -38,6 +41,7 @@ function FormComment({offerId, onSubmit}: ConnectedComponentProps):JSX.Element {
     setRating(0);
     setComment('');
     setDisableSubmit(true);
+    setDisabledTextarea(false);
   };
 
   return (
@@ -59,6 +63,7 @@ function FormComment({offerId, onSubmit}: ConnectedComponentProps):JSX.Element {
                 }}
                 id={`${item + 1}-stars`}
                 type="radio"
+                checked={(item + 1) === rating}
               />
               <label htmlFor={`${item + 1}-stars`} className="reviews__rating-label form__rating-label" title="perfect">
                 <svg className="form__star-image" width="37" height="33">
@@ -74,13 +79,10 @@ function FormComment({offerId, onSubmit}: ConnectedComponentProps):JSX.Element {
         value={comment}
         onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
           setComment(e.target.value);
-          if (comment.length >= 50) {
-            setDisableSubmit(false);
-          } else {
-            setDisableSubmit(true);
-          }
+          setDisableSubmit(comment.length < 50);
         }}
         placeholder="Tell how was your stay, what you like and what can be improved"
+        disabled={disabledTextarea}
       >
       </textarea>
       <div className="reviews__button-wrapper">

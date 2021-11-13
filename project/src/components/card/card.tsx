@@ -1,10 +1,8 @@
-//import {Link} from 'react-router-dom';
 import {Offer} from '../../types/offers';
 import {Type} from '../../const';
 import {ThunkAppDispatch} from '../../types/action';
 import {setActiveCard} from '../../store/action';
 import {State} from '../../types/state';
-//import {Dispatch} from 'redux';
 import {connect, ConnectedProps} from 'react-redux';
 import {fetchOfferIdAction} from '../../store/api-actions';
 
@@ -13,8 +11,8 @@ type CardProps = {
   type: Type,
 };
 
-const mapStateToProps = ({selectedOfferId}: State) => ({
-  selectedOfferId,
+const mapStateToProps = ({BOOK}: State) => ({
+  selectedOfferId: BOOK.selectedOfferId,
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({

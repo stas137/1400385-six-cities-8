@@ -1,4 +1,5 @@
 import {Link} from 'react-router-dom';
+import React from 'react';
 
 function Logo():JSX.Element {
   return (
@@ -8,4 +9,4 @@ function Logo():JSX.Element {
   );
 }
 
-export default Logo;
+export default React.memo(Logo);
