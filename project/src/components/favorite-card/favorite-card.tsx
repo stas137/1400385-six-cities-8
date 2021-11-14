@@ -1,9 +1,8 @@
 import {Offer} from '../../types/offers';
 import {Bookmark} from '../../const';
-import {Link} from 'react-router-dom';
 import {ThunkAppDispatch} from '../../types/action';
 import {connect, ConnectedProps} from 'react-redux';
-import {fetchOfferIdBookmarkAction} from '../../store/api-actions';
+import {fetchOfferIdAction, fetchOfferIdBookmarkAction} from '../../store/api-actions';
 
 type FavoriteProps = {
   offer: Offer,
@@ -13,6 +12,9 @@ const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onClickBookmark(offerId: number, status: Bookmark) {
     dispatch(fetchOfferIdBookmarkAction(offerId, status));
   },
+  onClickOffer(offerId: number) {
+    dispatch(fetchOfferIdAction(offerId));
+  },
 });
 
 const connector = connect(null, mapDispatchToProps);
@@ -20,13 +22,13 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 type ConnectedComponentProps = PropsFromRedux & FavoriteProps;
 
-function FavoriteCard({offer, onClickBookmark}: ConnectedComponentProps):JSX.Element {
+function FavoriteCard({offer, onClickBookmark, onClickOffer}: ConnectedComponentProps):JSX.Element {
   return (
     <article className="favorites__card place-card">
       <div className="favorites__image-wrapper place-card__image-wrapper">
-        <Link to={`/offer/${offer.id}`}>
+        <span style={{cursor: 'pointer'}} onClick={() => onClickOffer(offer.id)}>
           <img className="place-card__image" src={offer.previewImage} width="150" height="110" alt="Place icon" />
-        </Link>
+        </span>
       </div>
       <div className="favorites__card-info place-card__info">
         <div className="place-card__price-wrapper">
