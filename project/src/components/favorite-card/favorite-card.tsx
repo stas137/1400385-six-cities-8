@@ -1,16 +1,32 @@
 import {Offer} from '../../types/offers';
+import {Bookmark} from '../../const';
+import {Link} from 'react-router-dom';
+import {ThunkAppDispatch} from '../../types/action';
+import {connect, ConnectedProps} from 'react-redux';
+import {fetchOfferIdBookmarkAction} from '../../store/api-actions';
 
-type AppProps = {
+type FavoriteProps = {
   offer: Offer,
 };
 
-function FavoriteCard({offer}: AppProps):JSX.Element {
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  onClickBookmark(offerId: number, status: Bookmark) {
+    dispatch(fetchOfferIdBookmarkAction(offerId, status));
+  },
+});
+
+const connector = connect(null, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+type ConnectedComponentProps = PropsFromRedux & FavoriteProps;
+
+function FavoriteCard({offer, onClickBookmark}: ConnectedComponentProps):JSX.Element {
   return (
     <article className="favorites__card place-card">
       <div className="favorites__image-wrapper place-card__image-wrapper">
-        <a href="/#">
+        <Link to={`/offer/${offer.id}`}>
           <img className="place-card__image" src={offer.previewImage} width="150" height="110" alt="Place icon" />
-        </a>
+        </Link>
       </div>
       <div className="favorites__card-info place-card__info">
         <div className="place-card__price-wrapper">
@@ -18,7 +34,7 @@ function FavoriteCard({offer}: AppProps):JSX.Element {
             <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
+          <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button" onClick={() => onClickBookmark(offer.id, Bookmark.Delete)}>
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
@@ -40,4 +56,5 @@ function FavoriteCard({offer}: AppProps):JSX.Element {
   );
 }
 
-export default FavoriteCard;
+export {FavoriteCard};
+export default connector(FavoriteCard);

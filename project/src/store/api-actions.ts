@@ -1,10 +1,19 @@
 import {ThunkActionResult} from '../types/action';
-import {loadOffer, loadOffers, loadOfferNearBy, loadOfferComments, redirectToRoute, requireAuthorization, requireLogout, saveUserData} from './action';
+import {
+  loadOffer,
+  loadOfferComments,
+  loadOfferNearBy,
+  loadOffers,
+  redirectToRoute,
+  requireAuthorization,
+  requireLogout,
+  saveUserData
+} from './action';
 import {dropToken, saveToken, Token} from '../services/token';
-import {APIRoute, AppRoute, AuthorizationStatus, HttpCode} from '../const';
+import {APIRoute, AppRoute, AuthorizationStatus, Bookmark, HttpCode} from '../const';
 import {CommentPost, CommentsFromServer, OffersFromServer} from '../types/offers';
 import {AuthData} from '../types/auth-data';
-import {adaptToClientOffer, adaptToClientOffers, adaptToClientComments} from '../common';
+import {adaptToClientComments, adaptToClientOffer, adaptToClientOffers} from '../common';
 import {AxiosResponse} from 'axios';
 
 enum StatusCode {
@@ -44,7 +53,20 @@ export const fetchOfferIdAction = (offerId: number): ThunkActionResult =>
     } else {
       dispatch(redirectToRoute(AppRoute.NotFound));
     }
+  };
 
+export const fetchOfferIdBookmarkAction = (offerId: number, status: Bookmark): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+
+    const responseOfferIdBookmark = await api.post(`${APIRoute.Favorite}/${offerId}/${status}`);
+
+    if (responseOfferIdBookmark.status === StatusCode.Ok) {
+      const {data} = await api.get<OffersFromServer>(APIRoute.Offers);
+      dispatch(loadOffers(adaptToClientOffers(data)));
+    }
+    else {
+      dispatch(redirectToRoute(AppRoute.SignIn));
+    }
   };
 
 export const loginAction = ({login: email, password}: AuthData): ThunkActionResult =>

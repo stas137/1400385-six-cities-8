@@ -1,11 +1,11 @@
 import {Offer} from '../../types/offers';
-import {Type} from '../../const';
+import {Bookmark, Type} from '../../const';
 import {ThunkAppDispatch} from '../../types/action';
 import {setActiveCard} from '../../store/action';
 import {State} from '../../types/state';
 import {connect, ConnectedProps} from 'react-redux';
-import {fetchOfferIdAction} from '../../store/api-actions';
-import {getSelectedOfferId} from '../../store/book-process/selectors';
+import {fetchOfferIdAction, fetchOfferIdBookmarkAction} from '../../store/api-actions';
+import {getAuthorizationStatus} from '../../store/user-process/selectors';
 
 type CardProps = {
   offer: Offer,
@@ -13,7 +13,7 @@ type CardProps = {
 };
 
 const mapStateToProps = (state: State) => ({
-  selectedOfferId: getSelectedOfferId(state),
+  authorizationStatus: getAuthorizationStatus(state),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
@@ -23,6 +23,9 @@ const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onClickOffer(offerId: number) {
     dispatch(fetchOfferIdAction(offerId));
   },
+  onClickBookmark(offerId: number, status: Bookmark) {
+    dispatch(fetchOfferIdBookmarkAction(offerId, status));
+  },
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -30,7 +33,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = CardProps & PropsFromRedux;
 
-function Card({onMouseAction, onClickOffer, offer, type}: ConnectedComponentProps):JSX.Element {
+function Card({onMouseAction, onClickOffer, onClickBookmark, authorizationStatus, offer, type}: ConnectedComponentProps):JSX.Element {
 
   return (
     <article className={type === Type.Main ? 'cities__place-card place-card' : 'near-places__card place-card'} onMouseEnter={() => onMouseAction(offer.id)} onMouseLeave={() => onMouseAction(null)}>
@@ -52,13 +55,13 @@ function Card({onMouseAction, onClickOffer, offer, type}: ConnectedComponentProp
           </div>
 
           {offer.isFavorite ?
-            <button className="place-card__bookmark-button button place-card__bookmark-button--active" type="button">
+            <button className="place-card__bookmark-button button place-card__bookmark-button--active" type="button" onClick={() => onClickBookmark(offer.id, Bookmark.Delete)}>
               <svg className="place-card__bookmark-icon" width="18" height="19">
                 <use xlinkHref="#icon-bookmark"></use>
               </svg>
               <span className="visually-hidden">To bookmarks</span>
             </button> :
-            <button className="place-card__bookmark-button button" type="button">
+            <button className="place-card__bookmark-button button" type="button" onClick={() => onClickBookmark(offer.id, Bookmark.Add)}>
               <svg className="place-card__bookmark-icon" width="18" height="19">
                 <use xlinkHref="#icon-bookmark"></use>
               </svg>
