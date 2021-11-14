@@ -7,10 +7,12 @@ import {SyntheticEvent} from 'react';
 import {Link} from 'react-router-dom';
 import {ThunkAppDispatch} from '../../types/action';
 import {logoutAction} from '../../store/api-actions';
+import {getOffers} from '../../store/offers-data/selectors';
+import {getUserData} from '../../store/user-process/selectors';
 
-const mapStateToProps = ({DATA, USER}: State) => ({
-  offers: DATA.offers,
-  userData: USER.userData,
+const mapStateToProps = (state: State) => ({
+  offers: getOffers(state),
+  userData: getUserData(state),
 });
 
 const mapDispatchToPros = (dispatch: ThunkAppDispatch) => ({

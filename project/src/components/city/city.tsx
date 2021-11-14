@@ -4,13 +4,14 @@ import {Actions} from '../../types/action';
 import {changeCity} from '../../store/action';
 import {connect, ConnectedProps} from 'react-redux';
 import {Link} from 'react-router-dom';
+import {getCurrentCity} from '../../store/book-process/selectors';
 
 type CityProps = {
   cityOffer: string;
 }
 
-const mapStateToProps = ({BOOK}: State) => ({
-  currentCity: BOOK.currentCity,
+const mapStateToProps = (state: State) => ({
+  currentCity: getCurrentCity(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({

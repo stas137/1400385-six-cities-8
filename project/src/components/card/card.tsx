@@ -5,14 +5,15 @@ import {setActiveCard} from '../../store/action';
 import {State} from '../../types/state';
 import {connect, ConnectedProps} from 'react-redux';
 import {fetchOfferIdAction} from '../../store/api-actions';
+import {getSelectedOfferId} from '../../store/book-process/selectors';
 
 type CardProps = {
   offer: Offer,
   type: Type,
 };
 
-const mapStateToProps = ({BOOK}: State) => ({
-  selectedOfferId: BOOK.selectedOfferId,
+const mapStateToProps = (state: State) => ({
+  selectedOfferId: getSelectedOfferId(state),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
@@ -39,9 +40,9 @@ function Card({onMouseAction, onClickOffer, offer, type}: ConnectedComponentProp
         </div>
       ) : ''}
       <div className={type === Type.Main ? 'cities__image-wrapper place-card__image-wrapper' : 'near-places__image-wrapper place-card__image-wrapper'}>
-        <a href="/#">
+        <span style={{cursor: 'pointer'}} onClick={() => onClickOffer(offer.id)}>
           <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place icon" />
-        </a>
+        </span>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">

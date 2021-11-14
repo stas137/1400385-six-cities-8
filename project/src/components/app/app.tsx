@@ -12,12 +12,8 @@ import {connect, ConnectedProps} from 'react-redux';
 import {isCheckedAuth} from '../../common';
 import browserHistory from '../../browser-history';
 import {getAuthorizationStatus} from '../../store/user-process/selectors';
-import {getCurrentCity} from '../../store/book-process/selectors';
-import {getOffers} from '../../store/offers-data/selectors';
 
 const mapStateToProps = (state: State) => ({
-  currentCity: getCurrentCity(state),
-  offers: getOffers(state),
   authorizationStatus: getAuthorizationStatus(state),
   isDataLoaded: state.DATA.isDataLoaded,
 });
@@ -26,8 +22,7 @@ const connector = connect(mapStateToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function App({currentCity, offers, authorizationStatus, isDataLoaded}: PropsFromRedux):JSX.Element {
-  const currentCityOffers = offers.filter((offer) => offer.city.name === currentCity);
+function App({authorizationStatus, isDataLoaded}: PropsFromRedux):JSX.Element {
 
   if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
     return (
@@ -51,9 +46,7 @@ function App({currentCity, offers, authorizationStatus, isDataLoaded}: PropsFrom
         >
         </PrivateRoute>
         <Route exact path={AppRoute.Room}>
-          <Property
-            currentCityOffers={currentCityOffers}
-          />
+          <Property />
         </Route>
         <Route>
           <NotFound />

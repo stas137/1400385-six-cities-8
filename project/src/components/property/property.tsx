@@ -1,28 +1,25 @@
-//import Logo from '../logo/logo';
 import FormComment from '../form-comment/form-comment';
 import ReviewsList from '../reviews-list/reviews-list';
 import Map from '../map/map';
-import {Offers} from '../../types/offers';
 import CardsList from '../cards-list/cards-list';
 import {AuthorizationStatus, Type} from '../../const';
 import {State} from '../../types/state';
 import {connect, ConnectedProps} from 'react-redux';
-//import {Link} from 'react-router-dom';
 import Header from '../header/header';
 import {ThunkAppDispatch} from '../../types/action';
 import {logoutAction} from '../../store/api-actions';
 import {SyntheticEvent} from 'react';
+import {getSelectedOfferId} from '../../store/book-process/selectors';
+import {getComments, getNearBy, getOffer} from '../../store/offers-data/selectors';
+import {getAuthorizationStatus, getUserData} from '../../store/user-process/selectors';
 
-type PropertyProps = {
-  currentCityOffers: Offers,
-};
-
-const mapStateToProps = ({DATA, USER}: State) => ({
-  offer: DATA.offer,
-  nearBy: DATA.nearBy,
-  comments: DATA.comments,
-  authorizationStatus: USER.authorizationStatus,
-  userData: USER.userData,
+const mapStateToProps = (state: State) => ({
+  offer: getOffer(state),
+  nearBy: getNearBy(state),
+  comments: getComments(state),
+  selectedOfferId: getSelectedOfferId(state),
+  authorizationStatus: getAuthorizationStatus(state),
+  userData: getUserData(state),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
@@ -34,9 +31,8 @@ const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & PropertyProps;
 
-function Property({currentCityOffers, offer, nearBy, comments, authorizationStatus, userData, onClickLogout}: ConnectedComponentProps):JSX.Element {
+function Property({offer, nearBy, comments, selectedOfferId, authorizationStatus, userData, onClickLogout}: PropsFromRedux):JSX.Element {
 
   const onClickHandler = (e: SyntheticEvent<HTMLElement>) => {
     e.preventDefault();
@@ -148,8 +144,8 @@ function Property({currentCityOffers, offer, nearBy, comments, authorizationStat
           </div>
           <section className="property__map map">
             <Map
-              currentCityOffers={currentCityOffers}
-              selectedOfferId={null}
+              currentCityOffers={[...nearBy, offer]}
+              selectedOfferId={selectedOfferId}
             />
           </section>
         </section>

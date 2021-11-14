@@ -1,9 +1,10 @@
 import City from '../city/city';
 import {State} from '../../types/state';
 import {connect, ConnectedProps} from 'react-redux';
+import {getOffers} from '../../store/offers-data/selectors';
 
-const mapStateToProps = ({DATA}: State) => ({
-  offers: DATA.offers,
+const mapStateToProps = (state: State) => ({
+  offers: getOffers(state),
 });
 
 const connector = connect(mapStateToProps);
