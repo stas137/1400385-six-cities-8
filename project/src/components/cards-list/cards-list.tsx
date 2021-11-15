@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from '../card/card';
 import {Offers} from '../../types/offers';
-import {Type} from '../../const';
+import {Type} from '../../utils/const';
 
 type CardsListProps = {
   currentCityOffers: Offers,

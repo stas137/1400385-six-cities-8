@@ -1,7 +1,7 @@
 import Logo from '../logo/logo';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {AppRoute, AuthorizationStatus} from '../../utils/const';
 import {Link} from 'react-router-dom';
-import {UserData} from '../../types/auth-data';
+import {UserData} from '../../types/offers';
 import {SyntheticEvent} from 'react';
 
 type HeaderProps = {

@@ -1,5 +1,5 @@
 import {Comment} from '../../types/offers';
-import {getMonthName} from '../../common';
+import {getMonthName} from '../../utils/common';
 
 type ReviewsItemProps = {
   comment: Comment,

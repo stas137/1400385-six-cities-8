@@ -1,5 +1,5 @@
 import {Offer} from '../../types/offers';
-import {Bookmark, Type} from '../../const';
+import {Bookmark, Type} from '../../utils/const';
 import {ThunkAppDispatch} from '../../types/action';
 import {setActiveCard} from '../../store/action';
 import {State} from '../../types/state';

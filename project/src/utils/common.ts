@@ -7,7 +7,7 @@ import {
   CommentsFromServer,
   Comments,
   Comment
-} from './types/offers';
+} from '../types/offers';
 import {AuthorizationStatus} from './const';
 
 export const getMonthName = (monthNumber: number): string => {

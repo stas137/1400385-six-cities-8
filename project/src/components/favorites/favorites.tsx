@@ -2,7 +2,7 @@ import Logo from '../logo/logo';
 import FavoriteList from '../favorite-list/favorite-list';
 import {State} from '../../types/state';
 import {connect, ConnectedProps} from 'react-redux';
-import {AppRoute} from '../../const';
+import {AppRoute} from '../../utils/const';
 import {SyntheticEvent} from 'react';
 import {Link} from 'react-router-dom';
 import {ThunkAppDispatch} from '../../types/action';

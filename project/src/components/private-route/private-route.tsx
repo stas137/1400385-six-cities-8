@@ -1,7 +1,7 @@
 import {Route, RouteProps, Redirect} from 'react-router-dom';
 import {connect, ConnectedProps} from 'react-redux';
 import {State} from '../../types/state';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {AppRoute, AuthorizationStatus} from '../../utils/const';
 import {getAuthorizationStatus} from '../../store/user-process/selectors';
 
 type PrivateRouteProps = RouteProps & {

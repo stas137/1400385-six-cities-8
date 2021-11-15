@@ -17,7 +17,7 @@ function NotFound():JSX.Element {
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
           <section className="favorites">
-            <h1 className="favorites__title">404 Not Found</h1>
+            <h1 className="favorites__title">404. Page not found</h1>
             <p className="favorites__title"><Link to="/">Вернуться на главную страницу</Link></p>
           </section>
         </div>

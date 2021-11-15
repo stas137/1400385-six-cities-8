@@ -1,4 +1,4 @@
-import {AuthorizationStatus} from '../const';
+import {AuthorizationStatus} from '../utils/const';
 
 export type Comment = {
   comment: string,
@@ -125,15 +125,17 @@ export type OffersData = {
   isDataLoaded: boolean,
 };
 
+export type UserData = {
+  avatarUrl: string,
+  email: string,
+  id: number,
+  isPro: boolean,
+  name: string,
+};
+
 export type UserProcess = {
   authorizationStatus: AuthorizationStatus,
-  userData: {
-    avatarUrl: string,
-    email: string,
-    id: number,
-    isPro: boolean,
-    name: string,
-  },
+  userData: UserData,
 };
 
 export type BookProcess = {

@@ -5,11 +5,12 @@ import thunk from 'redux-thunk';
 import {Provider} from 'react-redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import App from './components/app/app';
-/*import {reducer} from './store/reducer';*/
+import {Router as BrowserRouter} from 'react-router-dom';
+import browserHistory from './browser-history';
 import {rootReducer} from './store/root-reducer';
 import {createAPI} from './services/api';
 import {requireAuthorization} from './store/action';
-import {AuthorizationStatus} from './const';
+import {AuthorizationStatus} from './utils/const';
 import {ThunkAppDispatch} from './types/action';
 import {checkAuthAction, fetchOffersAction} from './store/api-actions';
 import {redirect} from './store/middleware/redirect';
@@ -32,7 +33,9 @@ const store = createStore(
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <BrowserRouter history={browserHistory}>
+        <App />
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'));

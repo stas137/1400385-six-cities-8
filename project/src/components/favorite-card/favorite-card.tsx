@@ -1,5 +1,5 @@
 import {Offer} from '../../types/offers';
-import {Bookmark} from '../../const';
+import {Bookmark} from '../../utils/const';
 import {ThunkAppDispatch} from '../../types/action';
 import {connect, ConnectedProps} from 'react-redux';
 import {fetchOfferIdAction, fetchOfferIdBookmarkAction} from '../../store/api-actions';

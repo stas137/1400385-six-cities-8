@@ -2,7 +2,7 @@ import FormComment from '../form-comment/form-comment';
 import ReviewsList from '../reviews-list/reviews-list';
 import Map from '../map/map';
 import CardsList from '../cards-list/cards-list';
-import {AuthorizationStatus, Type} from '../../const';
+import {AuthorizationStatus, Type} from '../../utils/const';
 import {State} from '../../types/state';
 import {connect, ConnectedProps} from 'react-redux';
 import Header from '../header/header';

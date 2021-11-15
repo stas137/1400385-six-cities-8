@@ -1,8 +1,8 @@
 import {Actions, ActionType} from '../../types/action';
 import {UserProcess} from '../../types/offers';
-import {AuthorizationStatus} from '../../const';
+import {AuthorizationStatus} from '../../utils/const';
 
-const initialState = {
+const initialState: UserProcess = {
   authorizationStatus: AuthorizationStatus.Unknown,
   userData: {
     avatarUrl: '',

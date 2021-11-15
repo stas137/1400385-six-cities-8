@@ -10,10 +10,10 @@ import {
   saveUserData
 } from './action';
 import {dropToken, saveToken, Token} from '../services/token';
-import {APIRoute, AppRoute, AuthorizationStatus, Bookmark, HttpCode} from '../const';
+import {APIRoute, AppRoute, AuthorizationStatus, Bookmark, HttpCode} from '../utils/const';
 import {CommentPost, CommentsFromServer, OffersFromServer} from '../types/offers';
 import {AuthData} from '../types/auth-data';
-import {adaptToClientComments, adaptToClientOffer, adaptToClientOffers} from '../common';
+import {adaptToClientComments, adaptToClientOffer, adaptToClientOffers} from '../utils/common';
 import {AxiosResponse} from 'axios';
 
 enum StatusCode {
@@ -91,6 +91,6 @@ export const logoutAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     await api.delete(APIRoute.Logout);
     dropToken();
-    dispatch(requireLogout(AuthorizationStatus.NoAuth));
+    dispatch(requireLogout());
     dispatch(redirectToRoute(AppRoute.Main));
   };

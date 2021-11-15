@@ -1,7 +1,7 @@
 import {ActionType} from '../types/action';
 import {Offers, Offer, Comments} from '../types/offers';
-import {AppRoute, AuthorizationStatus} from '../const';
-import {UserData} from '../types/auth-data';
+import {AppRoute, AuthorizationStatus} from '../utils/const';
+import {UserData} from '../types/offers';
 
 export const changeCity = (currentCity: string) => ({
   type: ActionType.ChangeCity,
@@ -50,9 +50,8 @@ export const requireAuthorization = (authStatus: AuthorizationStatus) => ({
   payload: authStatus,
 } as const);
 
-export const requireLogout = (authStatus: AuthorizationStatus) => ({
+export const requireLogout = () => ({
   type: ActionType.RequireLogout,
-  payload: authStatus,
 } as const);
 
 export const saveUserData = (data: UserData) => ({
