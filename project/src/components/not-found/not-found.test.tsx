@@ -9,7 +9,7 @@ describe('Component: NotFound', ()=>{
     const screen = render(
       <Router history={history}>
         <NotFound />
-      </Router>
+      </Router>,
     );
 
     const headerElement = screen.getByText('404. Page not found');

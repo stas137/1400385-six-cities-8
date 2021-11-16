@@ -9,7 +9,7 @@ describe('Component: Logo', ()=>{
     const screen = render(
       <Router history={history}>
         <Logo />
-      </Router>
+      </Router>,
     );
 
     const imgElement = screen.getByAltText('6 cities logo');

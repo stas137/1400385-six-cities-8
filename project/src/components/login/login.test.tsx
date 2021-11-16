@@ -20,7 +20,7 @@ describe('Component: Login', () => {
         <Router history={history}>
           <Login />
         </Router>
-      </Provider>
+      </Provider>,
     );
 
     expect(screen.getAllByText(/Sign in/i).length).toBe(2);

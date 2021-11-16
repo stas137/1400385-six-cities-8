@@ -66,7 +66,7 @@ const store = mockStore({
       name: '',
     },
   },
-})
+});
 
 describe('Component: Main', () => {
   it('should render correctly "Main"', () => {
@@ -80,7 +80,7 @@ describe('Component: Main', () => {
             <Main />
           </Route>
         </Router>
-      </Provider>
+      </Provider>,
     );
 
     expect(screen.getByText(/places to stay in/i)).toBeInTheDocument();

@@ -16,7 +16,7 @@ describe('Component: PrivateRoute', () => {
 
     const store = mockStore({
       USER: {
-        authorizationStatus: AuthorizationStatus.NoAuth
+        authorizationStatus: AuthorizationStatus.NoAuth,
       },
     });
 
@@ -30,7 +30,7 @@ describe('Component: PrivateRoute', () => {
             render={() => (<h1>Private Route</h1>)}
           />
         </Router>
-      </Provider>
+      </Provider>,
     );
 
     expect(screen.getByText(/Public Route/i)).toBeInTheDocument();
@@ -43,7 +43,7 @@ describe('Component: PrivateRoute', () => {
 
     const store = mockStore({
       USER: {
-        authorizationStatus: AuthorizationStatus.Auth
+        authorizationStatus: AuthorizationStatus.Auth,
       },
     });
 
@@ -57,7 +57,7 @@ describe('Component: PrivateRoute', () => {
             render={() => (<h1>Private Route</h1>)}
           />
         </Router>
-      </Provider>
+      </Provider>,
     );
 
     expect(screen.getByText(/Private Route/i)).toBeInTheDocument();
