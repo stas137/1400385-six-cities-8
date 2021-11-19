@@ -32,7 +32,9 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function Property({offer, nearBy, comments, selectedOfferId, authorizationStatus, userData, onClickLogout}: PropsFromRedux):JSX.Element {
+function Property(props: PropsFromRedux):JSX.Element {
+
+  const {offer, nearBy, comments, selectedOfferId, authorizationStatus, userData, onClickLogout} = props;
 
   const onClickHandler = (e: SyntheticEvent<HTMLElement>) => {
     e.preventDefault();

@@ -1,18 +1,13 @@
-import {State} from '../../types/state';
 import {Dispatch} from 'redux';
 import {Actions} from '../../types/action';
 import {changeCity} from '../../store/action';
 import {connect, ConnectedProps} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {getCurrentCity} from '../../store/book-process/selectors';
 
 type CityProps = {
   cityOffer: string;
+  currentCity: string;
 }
-
-const mapStateToProps = (state: State) => ({
-  currentCity: getCurrentCity(state),
-});
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
   onChangeCity(city: string) {
@@ -20,7 +15,7 @@ const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
   },
 });
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
+const connector = connect(null, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & CityProps;

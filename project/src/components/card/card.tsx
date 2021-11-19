@@ -2,19 +2,13 @@ import {Offer} from '../../types/offers';
 import {Bookmark, Type} from '../../utils/const';
 import {ThunkAppDispatch} from '../../types/action';
 import {setActiveCard} from '../../store/action';
-import {State} from '../../types/state';
 import {connect, ConnectedProps} from 'react-redux';
 import {fetchOfferIdAction, fetchOfferIdBookmarkAction} from '../../store/api-actions';
-import {getAuthorizationStatus} from '../../store/user-process/selectors';
 
 type CardProps = {
   offer: Offer,
   type: Type,
 };
-
-const mapStateToProps = (state: State) => ({
-  authorizationStatus: getAuthorizationStatus(state),
-});
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onMouseAction(selectedOfferId: number | null) {
@@ -28,12 +22,12 @@ const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   },
 });
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
+const connector = connect(null, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = CardProps & PropsFromRedux;
 
-function Card({onMouseAction, onClickOffer, onClickBookmark, authorizationStatus, offer, type}: ConnectedComponentProps):JSX.Element {
+function Card({onMouseAction, onClickOffer, onClickBookmark, offer, type}: ConnectedComponentProps):JSX.Element {
 
   return (
     <article className={type === Type.Main ? 'cities__place-card place-card' : 'near-places__card place-card'} onMouseEnter={() => onMouseAction(offer.id)} onMouseLeave={() => onMouseAction(null)}>

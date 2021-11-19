@@ -21,7 +21,7 @@ function ReviewsItem({comment}: ReviewsItemProps):JSX.Element {
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
             <span style={{width: `${(comment.rating / 5) * 100}%`}}></span>
-            <span className="visually-hidden">Rating</span>
+            <span className="visually-hidden" data-testid="rating">Rating</span>
           </div>
         </div>
         <p className="reviews__text">

@@ -1,6 +1,10 @@
 import {Offers, Offer, UserData, Comment} from '../types/offers';
 import {internet, datatype, commerce, random, name} from 'faker';
 
+export const makeFakeListOptions = ():string[] => {
+  return ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'];
+}
+
 export const makeFakeUser = ():UserData => ({
   avatarUrl: internet.avatar(),
   email: internet.email(),

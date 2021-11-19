@@ -4,7 +4,7 @@ import {ThunkAppDispatch} from '../../types/action';
 import {connect, ConnectedProps} from 'react-redux';
 import {fetchOfferIdAction, fetchOfferIdBookmarkAction} from '../../store/api-actions';
 
-type FavoriteProps = {
+type FavoriteCardProps = {
   offer: Offer,
 };
 
@@ -20,7 +20,7 @@ const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
 const connector = connect(null, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-type ConnectedComponentProps = PropsFromRedux & FavoriteProps;
+type ConnectedComponentProps = PropsFromRedux & FavoriteCardProps;
 
 function FavoriteCard({offer, onClickBookmark, onClickOffer}: ConnectedComponentProps):JSX.Element {
   return (

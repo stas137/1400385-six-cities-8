@@ -7,7 +7,7 @@ type SortOptionsProps = {
 function SortOptions({listOptions}: SortOptionsProps):JSX.Element {
 
   return (
-    <ul className="places__options places__options--custom places__options--opened">
+    <ul className="places__options places__options--custom places__options--opened" data-testid="sort-options">
       {
         listOptions.map((option, index) => (
           <SortOption

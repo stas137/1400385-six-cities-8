@@ -21,7 +21,8 @@ const connector = connect(mapStateToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function App({authorizationStatus, isDataLoaded}: PropsFromRedux):JSX.Element {
+function App(props: PropsFromRedux):JSX.Element {
+  const {authorizationStatus, isDataLoaded} = props;
 
   if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
     return (
@@ -54,4 +55,4 @@ function App({authorizationStatus, isDataLoaded}: PropsFromRedux):JSX.Element {
 }
 
 export {App};
-export default connector (App);
+export default connector(App);
