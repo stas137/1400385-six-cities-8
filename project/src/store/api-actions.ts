@@ -10,11 +10,15 @@ import {
   saveUserData
 } from './action';
 import {dropToken, saveToken, Token} from '../services/token';
-import {APIRoute, AppRoute, AuthorizationStatus, Bookmark, HttpCode} from '../utils/const';
+import {APIRoute, AppRoute, AuthorizationStatus, Bookmark} from '../utils/const';
 import {CommentPost, CommentsFromServer, OffersFromServer} from '../types/offers';
 import {AuthData} from '../types/auth-data';
 import {adaptToClientComments, adaptToClientOffer, adaptToClientOffers} from '../utils/common';
-import {AxiosResponse} from 'axios';
+//import {AxiosResponse} from 'axios';
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const AUTH_FAIL_MESSAGE = 'Не забудьте авторизоваться';
 
 enum StatusCode {
   Ok = 200,
@@ -28,11 +32,16 @@ export const fetchOffersAction = (): ThunkActionResult =>
 
 export const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    api.get(APIRoute.Login).then((responce: AxiosResponse) => {
-      if (responce.status !== HttpCode.Unauthorized) {
-        dispatch(requireAuthorization(AuthorizationStatus.Auth));
-      }
-    });
+    try {
+      await api.get(APIRoute.Login);//.then((responce: AxiosResponse) => {
+      //if (responce.status !== HttpCode.Unauthorized) {
+      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      //}
+    }//);
+    catch {
+      toast.configure();
+      toast.info(AUTH_FAIL_MESSAGE);
+    }
   };
 
 export const fetchOfferIdAction = (offerId: number): ThunkActionResult =>
