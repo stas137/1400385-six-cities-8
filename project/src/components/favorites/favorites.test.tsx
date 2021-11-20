@@ -2,10 +2,10 @@ import {render, screen} from '@testing-library/react';
 import {Router} from 'react-router-dom';
 import {createMemoryHistory} from 'history';
 import Favorites from './favorites';
-import {Provider} from "react-redux";
-import {configureMockStore} from "@jedmao/redux-mock-store";
-import {AuthorizationStatus} from "../../utils/const";
-import {makeFakeOffers, makeFakeUser} from "../../utils/mock";
+import {Provider} from 'react-redux';
+import {configureMockStore} from '@jedmao/redux-mock-store';
+import {AuthorizationStatus} from '../../utils/const';
+import {makeFakeOffers, makeFakeUser} from '../../utils/mock';
 
 const history = createMemoryHistory();
 const mockStore = configureMockStore();
@@ -27,8 +27,7 @@ describe('Component: Favorites', () => {
         <Router history={history}>
           <Favorites />
         </Router>
-      </Provider>
-    );
+      </Provider>);
 
     expect(screen.getByText(/Saved listing/i)).toBeInTheDocument();
     expect(screen.getByText(store.getState().USER.userData.email)).toBeInTheDocument();

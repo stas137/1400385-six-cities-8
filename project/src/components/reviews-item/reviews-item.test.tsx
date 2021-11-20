@@ -12,8 +12,7 @@ describe('Component: ReviewsItem', () => {
     render(
       <Router history={history}>
         <ReviewsItem comment={mockComment} />
-      </Router>
-    );
+      </Router>);
 
     expect(screen.getByTestId('rating')).toBeInTheDocument();
   });

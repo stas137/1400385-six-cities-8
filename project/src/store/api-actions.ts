@@ -14,7 +14,6 @@ import {APIRoute, AppRoute, AuthorizationStatus, Bookmark} from '../utils/const'
 import {CommentPost, CommentsFromServer, OffersFromServer} from '../types/offers';
 import {AuthData} from '../types/auth-data';
 import {adaptToClientComments, adaptToClientOffer, adaptToClientOffers} from '../utils/common';
-//import {AxiosResponse} from 'axios';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -33,11 +32,9 @@ export const fetchOffersAction = (): ThunkActionResult =>
 export const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     try {
-      await api.get(APIRoute.Login);//.then((responce: AxiosResponse) => {
-      //if (responce.status !== HttpCode.Unauthorized) {
+      await api.get(APIRoute.Login);
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
-      //}
-    }//);
+    }
     catch {
       toast.configure();
       toast.info(AUTH_FAIL_MESSAGE);

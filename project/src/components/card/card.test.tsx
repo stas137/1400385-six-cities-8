@@ -3,8 +3,8 @@ import {makeFakeOffer} from '../../utils/mock';
 import {Router} from 'react-router-dom';
 import {createMemoryHistory} from 'history';
 import Card from './card';
-import {Provider} from "react-redux";
-import {configureMockStore} from "@jedmao/redux-mock-store";
+import {Provider} from 'react-redux';
+import {configureMockStore} from '@jedmao/redux-mock-store';
 import {Type} from '../../utils/const';
 
 const history = createMemoryHistory();
@@ -18,8 +18,7 @@ describe('Component: Card', () => {
         <Router history={history}>
           <Card offer={mockOffer} type={Type.Main} key={mockOffer.id} />
         </Router>
-      </Provider>
-    );
+      </Provider>);
 
     expect(screen.getAllByText(/€/i).length).not.toBe(true);
   });

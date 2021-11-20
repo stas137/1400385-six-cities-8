@@ -9,7 +9,7 @@ const fakeHistory = {
   location: {pathname: ''},
   push(path: string){
     this.location.pathname = path;
-  }
+  },
 };
 
 jest.mock('../../browser-history', () => fakeHistory);

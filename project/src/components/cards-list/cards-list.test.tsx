@@ -4,8 +4,8 @@ import {Router} from 'react-router-dom';
 import {createMemoryHistory} from 'history';
 import CardsList from './cards-list';
 import {Type} from '../../utils/const';
-import {Provider} from "react-redux";
-import {configureMockStore} from "@jedmao/redux-mock-store";
+import {Provider} from 'react-redux';
+import {configureMockStore} from '@jedmao/redux-mock-store';
 
 const history = createMemoryHistory();
 const mockOffers = makeFakeOffers();
@@ -18,8 +18,7 @@ describe('Component: CardList', () => {
         <Router history={history}>
           <CardsList currentCityOffers={mockOffers} type={Type.Main} />
         </Router>
-      </Provider>
-    );
+      </Provider>);
 
     expect(screen.getAllByText(/night/i).length).not.toBe(true);
   });

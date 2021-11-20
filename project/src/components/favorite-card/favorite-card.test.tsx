@@ -3,8 +3,8 @@ import {makeFakeOffer} from '../../utils/mock';
 import {Router} from 'react-router-dom';
 import {createMemoryHistory} from 'history';
 import FavoriteCard from './favorite-card';
-import {Provider} from "react-redux";
-import {configureMockStore} from "@jedmao/redux-mock-store";
+import {Provider} from 'react-redux';
+import {configureMockStore} from '@jedmao/redux-mock-store';
 
 const history = createMemoryHistory();
 const mockOffer = makeFakeOffer();
@@ -17,8 +17,7 @@ describe('Component: FavoriteCard', () => {
         <Router history={history}>
           <FavoriteCard offer={mockOffer} />
         </Router>
-      </Provider>
-    );
+      </Provider>);
 
     expect(screen.getByText(/€/i)).toBeInTheDocument();
     expect(screen.getByText(/night/i)).toBeInTheDocument();

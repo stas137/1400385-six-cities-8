@@ -12,8 +12,7 @@ describe('Component: FavoriteList', () => {
     render(
       <Router history={history}>
         <FavoriteList offers={mockOffers} city={'Paris'} />
-      </Router>
-    );
+      </Router>);
 
     expect(screen.getByText(/Paris/i)).toBeInTheDocument();
   });

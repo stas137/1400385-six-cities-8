@@ -88,7 +88,7 @@ describe('Component: Property', ()=>{
     expect(screen.getByText(/Your review/i)).toBeInTheDocument();
   });
 
-  it('should render correctly when user is Authorized', () => {
+  it('should render correctly when user is not Authorized', () => {
 
     render(
       <Provider store={storeNoAuth}>
