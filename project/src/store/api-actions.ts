@@ -7,7 +7,8 @@ import {
   redirectToRoute,
   requireAuthorization,
   requireLogout,
-  saveUserData
+  saveUserData,
+  disabledForm
 } from './action';
 import {dropToken, saveToken, Token} from '../services/token';
 import {APIRoute, AppRoute, AuthorizationStatus, Bookmark} from '../utils/const';
@@ -84,11 +85,20 @@ export const loginAction = ({login: email, password}: AuthData): ThunkActionResu
     dispatch(redirectToRoute(AppRoute.Main));
   };
 
-export const sendComment = ({rating, comment}: CommentPost, offerId: number): ThunkActionResult =>
+export const sendComment = ({rating, comment}: CommentPost, offerId: number, clearForm: () => void): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    const responseOfferIdComments = await api.post<CommentsFromServer>(`${APIRoute.Comments}/${offerId}`, {rating, comment});
-    if (responseOfferIdComments.status === StatusCode.Ok) {
+    try {
+      dispatch(disabledForm(true));
+      const responseOfferIdComments = await api.post<CommentsFromServer>(`${APIRoute.Comments}/${offerId}`, {rating, comment});
       dispatch(loadOfferComments(adaptToClientComments(responseOfferIdComments.data)));
+      clearForm();
+    }
+    catch {
+      toast.configure();
+      toast.info('Сообщение не было отправлено, попробуйте позже');
+    }
+    finally {
+      dispatch(disabledForm(false));
     }
   };
 

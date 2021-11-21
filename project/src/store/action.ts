@@ -63,3 +63,8 @@ export const redirectToRoute = (url: AppRoute) => ({
   type: ActionType.RedirectToRoute,
   payload: url,
 } as const);
+
+export const disabledForm = (isDisabledForm: boolean) => ({
+  type: ActionType.DisabledForm,
+  payload: isDisabledForm,
+} as const);

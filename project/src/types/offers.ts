@@ -136,6 +136,7 @@ export type UserData = {
 export type UserProcess = {
   authorizationStatus: AuthorizationStatus,
   userData: UserData,
+  isDisabledForm: boolean,
 };
 
 export type BookProcess = {

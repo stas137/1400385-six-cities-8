@@ -18,6 +18,7 @@ export const getMonthName = (monthNumber: number): string => {
 export const compareLowToHigh = (a:Offer, b:Offer):number => (a.price > b.price ? 1 : -1);
 export const compareHighToLow = (a:Offer, b:Offer):number => (a.price > b.price ? -1 : 1);
 export const compareTopRated = (a:Offer, b:Offer):number => (a.rating > b.rating ? -1 : 1);
+export const compareCommentDate = (a:Comment, b:Comment):number => (a.date > b.date ? -1 : 1);
 
 export const sortCurrentCityOffers = (selectedSort: string, currentCityOffers: Offers):Offers => {
 
@@ -37,7 +38,7 @@ export const sortCurrentCityOffers = (selectedSort: string, currentCityOffers: O
   }
 };
 
-export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
+export const isCheckedAuthUnknown = (authorizationStatus: AuthorizationStatus): boolean =>
   authorizationStatus === AuthorizationStatus.Unknown;
 
 export const adaptToClientOffers = (data: OffersFromServer): Offers => {

@@ -9,12 +9,13 @@ import NotFound from '../not-found/not-found';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {State} from '../../types/state';
 import {connect, ConnectedProps} from 'react-redux';
-import {isCheckedAuth} from '../../utils/common';
+import {isCheckedAuthUnknown} from '../../utils/common';
 import {getAuthorizationStatus} from '../../store/user-process/selectors';
+import {getIsDataLoaded} from '../../store/offers-data/selectors';
 
 const mapStateToProps = (state: State) => ({
   authorizationStatus: getAuthorizationStatus(state),
-  isDataLoaded: state.DATA.isDataLoaded,
+  isDataLoaded: getIsDataLoaded(state),
 });
 
 const connector = connect(mapStateToProps);
@@ -24,7 +25,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 function App(props: PropsFromRedux):JSX.Element {
   const {authorizationStatus, isDataLoaded} = props;
 
-  if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
+  if (isCheckedAuthUnknown(authorizationStatus) || !isDataLoaded) {
     return (
       <LoadingScreen />
     );

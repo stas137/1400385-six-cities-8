@@ -11,6 +11,7 @@ const initialState: UserProcess = {
     isPro: false,
     name: '',
   },
+  isDisabledForm: false,
 };
 
 const userProcess = (state: UserProcess = initialState, action: Actions): UserProcess => {
@@ -21,6 +22,8 @@ const userProcess = (state: UserProcess = initialState, action: Actions): UserPr
       return {...state, authorizationStatus: AuthorizationStatus.NoAuth};
     case ActionType.SaveUserData:
       return {...state, userData: action.payload};
+    case ActionType.DisabledForm:
+      return {...state, isDisabledForm: action.payload};
     default:
       return state;
   }

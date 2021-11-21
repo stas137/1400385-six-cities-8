@@ -9,7 +9,8 @@ import {
   requireAuthorization,
   requireLogout,
   saveUserData,
-  redirectToRoute
+  redirectToRoute,
+  disabledForm
 } from '../store/action';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {AxiosInstance} from 'axios';
@@ -28,6 +29,7 @@ export enum ActionType {
   RequireLogout = 'require-logout',
   SaveUserData = 'save-user-data',
   RedirectToRoute = 'redirect-to-route',
+  DisabledForm = 'disabled-form',
 }
 
 export type Actions =
@@ -41,7 +43,8 @@ export type Actions =
   | ReturnType<typeof requireAuthorization>
   | ReturnType<typeof requireLogout>
   | ReturnType<typeof saveUserData>
-  | ReturnType<typeof redirectToRoute>;
+  | ReturnType<typeof redirectToRoute>
+  | ReturnType<typeof disabledForm>;
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
 
