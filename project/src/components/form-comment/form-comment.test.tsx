@@ -7,7 +7,11 @@ import {configureMockStore} from '@jedmao/redux-mock-store';
 
 const history = createMemoryHistory();
 const mockStore = configureMockStore();
-const store = mockStore({});
+const store = mockStore({
+  USER: {
+    isDisabledForm: false,
+  },
+});
 
 describe('Component: FormComment', () => {
   it ('should render correctly', () => {

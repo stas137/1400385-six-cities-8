@@ -6,7 +6,7 @@ import {createAPI} from '../services/api';
 import MockAdapter from 'axios-mock-adapter';
 import {APIRoute, AuthorizationStatus} from '../utils/const';
 import {checkAuthAction} from './api-actions';
-import {requireAuthorization} from './action';
+import {requireAuthorization, saveUserData} from './action';
 
 const onFakeUnauthorized = jest.fn();
 const api = createAPI(onFakeUnauthorized());
@@ -21,7 +21,7 @@ describe('Async actions', () => {
     expect(store.getActions()).toEqual([]);
     await store.dispatch(checkAuthAction());
     const getAction = store.getActions();
-    expect(getAction).toEqual([requireAuthorization(AuthorizationStatus.Auth)]);
+    expect(getAction).toEqual([requireAuthorization(AuthorizationStatus.Auth), saveUserData({avatarUrl: undefined, email: undefined, id: undefined, isPro: undefined, name: undefined})]);
   });
 });
 

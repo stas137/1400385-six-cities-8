@@ -7,7 +7,7 @@ type ReviewListProps = {
 }
 
 function ReviewsList({comments}: ReviewListProps):JSX.Element {
-  const commentsSorted = comments.sort(compareCommentDate);
+  const commentsSorted = [...comments].sort(compareCommentDate);
   const commentsFirst = commentsSorted.length <= 10 ? [...commentsSorted] : [...comments.slice(0, 10)];
 
   return (

@@ -126,11 +126,11 @@ export type OffersData = {
 };
 
 export type UserData = {
-  avatarUrl: string,
-  email: string,
-  id: number,
-  isPro: boolean,
-  name: string,
+  avatarUrl: string | undefined,
+  email: string | undefined,
+  id: number | undefined,
+  isPro: boolean | undefined,
+  name: string | undefined,
 };
 
 export type UserProcess = {

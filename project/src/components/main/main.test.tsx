@@ -83,6 +83,6 @@ describe('Component: Main', () => {
       </Provider>,
     );
 
-    expect(screen.getByText(/places to stay in/i)).toBeInTheDocument();
+    expect(screen.getByText(/No places to stay available/i)).toBeInTheDocument();
   });
 });

@@ -5,7 +5,7 @@ import {Route, Router} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../utils/const';
 import Property from './property';
 import {Provider} from 'react-redux';
-import {makeFakeOffer, makeFakeOfferComment, makeFakeOfferNearBy, makeFakeOffers} from '../../utils/mock';
+import {makeFakeOffer, makeFakeOfferComments, makeFakeOfferNearBy, makeFakeOffers} from '../../utils/mock';
 
 const mockStore = configureMockStore();
 const history = createMemoryHistory();
@@ -15,7 +15,7 @@ const storeAuth = mockStore({
     offers: makeFakeOffers(),
     offer: makeFakeOffer(),
     nearBy: makeFakeOfferNearBy(),
-    comments: makeFakeOfferComment(),
+    comments: makeFakeOfferComments(),
     isDataLoaded: true,
   },
   BOOK: {
@@ -41,7 +41,7 @@ const storeNoAuth = mockStore({
     offers: makeFakeOffers(),
     offer: makeFakeOffer(),
     nearBy: makeFakeOfferNearBy(),
-    comments: makeFakeOfferComment(),
+    comments: makeFakeOfferComments(),
     isDataLoaded: true,
   },
   BOOK: {

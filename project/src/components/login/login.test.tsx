@@ -6,9 +6,15 @@ import {configureMockStore} from '@jedmao/redux-mock-store';
 import Login from './login';
 import {Provider} from 'react-redux';
 import {AppRoute} from '../../utils/const';
+import {makeFakeOffers} from "../../utils/mock";
 
 const mockStore = configureMockStore();
 const history = createMemoryHistory();
+const store = mockStore({
+  DATA: {
+    offers: makeFakeOffers(),
+  }
+})
 
 describe('Component: Login', () => {
   it('should render correctly "Login" when user navigate to "login" url', () => {
@@ -16,7 +22,7 @@ describe('Component: Login', () => {
     history.push(AppRoute.SignIn);
 
     render(
-      <Provider store={mockStore({})}>
+      <Provider store={store}>
         <Router history={history}>
           <Login />
         </Router>

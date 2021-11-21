@@ -15,6 +15,7 @@ const initialUserData = {
 const initialState: UserProcess = {
   authorizationStatus: AuthorizationStatus.Unknown,
   userData: initialUserData,
+  isDisabledForm: false,
 };
 
 const mockUser = makeFakeUser();
@@ -28,6 +29,7 @@ describe('Reducer userProcess:', () => {
     expect(userProcess(initialState, requireLogout())).toEqual({
       authorizationStatus: AuthorizationStatus.NoAuth,
       userData: initialUserData,
+      isDisabledForm: false,
     });
   });
 
@@ -35,6 +37,7 @@ describe('Reducer userProcess:', () => {
     expect(userProcess(initialState, requireAuthorization(AuthorizationStatus.Auth))).toEqual({
       authorizationStatus: AuthorizationStatus.Auth,
       userData: initialUserData,
+      isDisabledForm: false,
     });
   });
 
@@ -42,6 +45,7 @@ describe('Reducer userProcess:', () => {
     expect(userProcess(initialState, requireAuthorization(AuthorizationStatus.NoAuth))).toEqual({
       authorizationStatus: AuthorizationStatus.NoAuth,
       userData: initialUserData,
+      isDisabledForm: false,
     });
   });
 

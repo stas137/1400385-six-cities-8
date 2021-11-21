@@ -9,7 +9,24 @@ import {makeFakeOffers, makeFakeUser} from '../../utils/mock';
 
 const mockStore = configureMockStore();
 
-const store = mockStore({
+const storeNoAuth = mockStore({
+  USER: {
+    authorizationStatus: AuthorizationStatus.NoAuth,
+    userData: makeFakeUser(),
+  },
+  DATA: {
+    offers: makeFakeOffers(),
+    isDataLoaded: true,
+  },
+  BOOK: {
+    currentCity: 'Paris',
+    selectedSort: 'Popular',
+    selectedOfferId: null,
+    listOptions: ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'],
+  },
+});
+
+const storeAuth = mockStore({
   USER: {
     authorizationStatus: AuthorizationStatus.Auth,
     userData: makeFakeUser(),
@@ -27,24 +44,29 @@ const store = mockStore({
 });
 
 const history = createMemoryHistory();
-const fakeApp = (
-  <Provider store={store}>
-    <Router history={history}>
-      <App />
-    </Router>
-  </Provider>
-);
 
 describe('Application Routing', () => {
   it('should render "Main" when user navigate to "/"', () => {
     history.push(AppRoute.Main);
-    render(fakeApp);
-    expect(screen.getByText(new RegExp('places to stay in Paris', 'i'))).toBeInTheDocument();
+    render(
+      <Provider store={storeNoAuth}>
+        <Router history={history}>
+          <App />
+        </Router>
+      </Provider>,
+    );
+    expect(screen.getByText(new RegExp('No places to stay available', 'i'))).toBeInTheDocument();
   });
 
   it('should render "AuthScreen" when user navigate to "/login"', () => {
     history.push(AppRoute.SignIn);
-    render(fakeApp);
+    render(
+      <Provider store={storeNoAuth}>
+        <Router history={history}>
+          <App />
+        </Router>
+      </Provider>,
+    );
 
     expect(screen.getAllByText(/Sign in/i).length).toBe(2);
     expect(screen.getByPlaceholderText(/Email/i)).toBeInTheDocument();
@@ -53,14 +75,24 @@ describe('Application Routing', () => {
 
   it('should render "Favorites" when user navigate to "/favorites"', () => {
     history.push(AppRoute.Favorites);
-    render(fakeApp);
+    render(      <Provider store={storeAuth}>
+      <Router history={history}>
+        <App />
+      </Router>
+    </Provider>,);
 
     expect(screen.getByText(/Saved listing/i)).toBeInTheDocument();
   });
 
   it('should render "NotFoundScreen" when user navigate to non-existent route', () => {
     history.push(AppRoute.NotFound);
-    render(fakeApp);
+    render(
+      <Provider store={storeNoAuth}>
+      <Router history={history}>
+        <App />
+      </Router>
+    </Provider>,
+    );
 
     expect(screen.getByText('404. Page not found')).toBeInTheDocument();
     expect(screen.getByText('Вернуться на главную страницу')).toBeInTheDocument();
