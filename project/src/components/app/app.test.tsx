@@ -65,8 +65,7 @@ describe('Application Routing', () => {
         <Router history={history}>
           <App />
         </Router>
-      </Provider>,
-    );
+      </Provider>);
 
     expect(screen.getAllByText(/Sign in/i).length).toBe(2);
     expect(screen.getByPlaceholderText(/Email/i)).toBeInTheDocument();
@@ -75,11 +74,12 @@ describe('Application Routing', () => {
 
   it('should render "Favorites" when user navigate to "/favorites"', () => {
     history.push(AppRoute.Favorites);
-    render(      <Provider store={storeAuth}>
-      <Router history={history}>
-        <App />
-      </Router>
-    </Provider>,);
+    render(
+      <Provider store={storeAuth}>
+        <Router history={history}>
+          <App />
+        </Router>
+      </Provider>);
 
     expect(screen.getByText(/Saved listing/i)).toBeInTheDocument();
   });
@@ -88,11 +88,10 @@ describe('Application Routing', () => {
     history.push(AppRoute.NotFound);
     render(
       <Provider store={storeNoAuth}>
-      <Router history={history}>
-        <App />
-      </Router>
-    </Provider>,
-    );
+        <Router history={history}>
+          <App />
+        </Router>
+      </Provider>);
 
     expect(screen.getByText('404. Page not found')).toBeInTheDocument();
     expect(screen.getByText('Вернуться на главную страницу')).toBeInTheDocument();
