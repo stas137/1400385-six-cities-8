@@ -33,8 +33,9 @@ export const fetchOffersAction = (): ThunkActionResult =>
 export const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     try {
-      await api.get(APIRoute.Login);
+      const {data} = await api.get(APIRoute.Login);
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      dispatch(saveUserData({avatarUrl: data.avatar_url, email: data.email, id: data.id, isPro: data.is_pro, name: data.name}));
     }
     catch {
       toast.configure();
@@ -64,14 +65,17 @@ export const fetchOfferIdAction = (offerId: number): ThunkActionResult =>
 
 export const fetchOfferIdBookmarkAction = (offerId: number, status: Bookmark): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
+    try {
+      const responseOfferId = await api.post(`${APIRoute.Favorite}/${offerId}/${status}`);
+      dispatch(loadOffer(adaptToClientOffer(responseOfferId.data)));
 
-    const responseOfferIdBookmark = await api.post(`${APIRoute.Favorite}/${offerId}/${status}`);
+      const responseOfferIdNearBy = await api.get(`${APIRoute.Offers}/${offerId}/nearby`);
+      dispatch(loadOfferNearBy(adaptToClientOffers(responseOfferIdNearBy.data)));
 
-    if (responseOfferIdBookmark.status === StatusCode.Ok) {
-      const {data} = await api.get<OffersFromServer>(APIRoute.Offers);
-      dispatch(loadOffers(adaptToClientOffers(data)));
+      const responseOffers = await api.get<OffersFromServer>(APIRoute.Offers);
+      dispatch(loadOffers(adaptToClientOffers(responseOffers.data)));
     }
-    else {
+    catch {
       dispatch(redirectToRoute(AppRoute.SignIn));
     }
   };

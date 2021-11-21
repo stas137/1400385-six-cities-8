@@ -2,12 +2,12 @@ import FormComment from '../form-comment/form-comment';
 import ReviewsList from '../reviews-list/reviews-list';
 import Map from '../map/map';
 import CardsList from '../cards-list/cards-list';
-import {AuthorizationStatus, Type} from '../../utils/const';
+import {AuthorizationStatus, Bookmark, Type} from '../../utils/const';
 import {State} from '../../types/state';
 import {connect, ConnectedProps} from 'react-redux';
 import Header from '../header/header';
 import {ThunkAppDispatch} from '../../types/action';
-import {logoutAction} from '../../store/api-actions';
+import {fetchOfferIdBookmarkAction, logoutAction} from '../../store/api-actions';
 import {SyntheticEvent} from 'react';
 import {getSelectedOfferId} from '../../store/book-process/selectors';
 import {getComments, getNearBy, getOffer} from '../../store/offers-data/selectors';
@@ -26,6 +26,9 @@ const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onClickLogout() {
     dispatch(logoutAction());
   },
+  onClickBookmark(offerId: number, status: Bookmark) {
+    dispatch(fetchOfferIdBookmarkAction(offerId, status));
+  },
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -34,7 +37,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function Property(props: PropsFromRedux):JSX.Element {
 
-  const {offer, nearBy, comments, selectedOfferId, authorizationStatus, userData, onClickLogout} = props;
+  const {offer, nearBy, comments, selectedOfferId, authorizationStatus, userData, onClickLogout, onClickBookmark} = props;
 
   const onClickHandler = (e: SyntheticEvent<HTMLElement>) => {
     e.preventDefault();
@@ -73,12 +76,20 @@ function Property(props: PropsFromRedux):JSX.Element {
                 <h1 className="property__name">
                   {offer.title}
                 </h1>
-                <button className="property__bookmark-button button" type="button">
-                  <svg className="property__bookmark-icon" width="31" height="33">
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                {offer.isFavorite ?
+                  <button className="property__bookmark-button button property__bookmark-button--active" type="button" onClick={() => onClickBookmark(offer.id, Bookmark.Delete)}>
+                    <svg className="property__bookmark-icon" width="31" height="33">
+                      <use xlinkHref="#icon-bookmark"></use>
+                    </svg>
+                    <span className="visually-hidden">To bookmarks</span>
+                  </button> :
+                  <button className="property__bookmark-button button" type="button" onClick={() => onClickBookmark(offer.id, Bookmark.Add)}>
+                    <svg className="property__bookmark-icon" width="31" height="33">
+                      <use xlinkHref="#icon-bookmark"></use>
+                    </svg>
+                    <span className="visually-hidden">To bookmarks</span>
+                  </button>}
+
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">

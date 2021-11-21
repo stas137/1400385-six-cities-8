@@ -28,6 +28,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 function Favorites({offers, userData, onClickLogout}: PropsFromRedux):JSX.Element {
   const offerCities = offers.map((offer) => offer.city.name);
   const uniqCities = [...new Set(offerCities)];
+  const offersFavorites = offers.filter((offer) => offer.isFavorite === true);
 
   const onClickHandler = (e: SyntheticEvent<HTMLElement>) => {
     e.preventDefault();
@@ -67,20 +68,30 @@ function Favorites({offers, userData, onClickLogout}: PropsFromRedux):JSX.Elemen
 
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-            <ul className="favorites__list">
-              {
-                uniqCities.map((city) => (
-                  <FavoriteList
-                    key={city}
-                    city={city}
-                    offers={offers}
-                  />
-                ))
-              }
-            </ul>
-          </section>
+          {
+            offersFavorites.length ?
+              <section className="favorites">
+                <h1 className="favorites__title">Saved listing</h1>
+                <ul className="favorites__list">
+                  {
+                    uniqCities.map((city) => (
+                      <FavoriteList
+                        key={city}
+                        city={city}
+                        offers={offers}
+                      />
+                    ))
+                  }
+                </ul>
+              </section> :
+              <section className="favorites favorites--empty">
+                <h1 className="visually-hidden">Favorites (empty)</h1>
+                <div className="favorites__status-wrapper">
+                  <b className="favorites__status">Nothing yet saved.</b>
+                  <p className="favorites__status-description">Save properties to narrow down search or plan your future trips.</p>
+                </div>
+              </section>
+          }
         </div>
       </main>
       <footer className="footer container">

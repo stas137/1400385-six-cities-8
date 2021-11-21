@@ -6,18 +6,32 @@ import {loginAction} from '../../store/api-actions';
 import {ThunkAppDispatch} from '../../types/action';
 import {AuthData} from '../../types/auth-data';
 import {AppRoute} from '../../utils/const';
+import {changeCity} from '../../store/action';
+import {State} from '../../types/state';
+import {getOffers} from '../../store/offers-data/selectors';
+import {getRandomInteger} from '../../utils/common';
+
+const mapStateToProps = (state: State) => ({
+  offers: getOffers(state),
+});
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onSubmit(authData: AuthData) {
     dispatch(loginAction(authData));
   },
+  onChangeCity(city: string) {
+    dispatch(changeCity(city));
+  },
 });
 
-const connector = connect(null, mapDispatchToProps);
+const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function Login(props: PropsFromRedux):JSX.Element {
-  const {onSubmit} = props;
+  const {offers, onSubmit, onChangeCity} = props;
+  const offerCities = offers.map((offer) => offer.city.name);
+  const uniqCities = [...new Set(offerCities)];
+  const randomIndex = getRandomInteger(0, uniqCities.length-1);
 
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
@@ -84,8 +98,8 @@ function Login(props: PropsFromRedux):JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link className="locations__item-link" to={AppRoute.Main}>
-                <span>Paris</span>
+              <Link className="locations__item-link" to={AppRoute.Main} onClick={() => onChangeCity(uniqCities[randomIndex])}>
+                <span>{uniqCities[randomIndex]}</span>
               </Link>
             </div>
           </section>

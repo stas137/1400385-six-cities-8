@@ -18,8 +18,7 @@ function CardsList({currentCityOffers, type}: CardsListProps):JSX.Element {
             key={offer.id}
             offer={offer}
             type={type}
-          />
-        ))
+          />))
       }
     </>
   );

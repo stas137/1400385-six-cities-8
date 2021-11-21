@@ -1,6 +1,7 @@
 import {Route, Switch} from 'react-router-dom';
 import {AppRoute} from '../../utils/const';
 import PrivateRoute from '../private-route/private-route';
+import PrivateRouteLogin from '../private-route-login/private-route-login';
 import Main from '../main/main';
 import Login from '../login/login';
 import Favorites from '../favorites/favorites';
@@ -36,9 +37,12 @@ function App(props: PropsFromRedux):JSX.Element {
       <Route exact path={AppRoute.Main}>
         <Main />
       </Route>
-      <Route exact path={AppRoute.SignIn}>
-        <Login />
-      </Route>
+      <PrivateRouteLogin
+        exact
+        path={AppRoute.SignIn}
+        render={() => <Login />}
+      >
+      </PrivateRouteLogin>
       <PrivateRoute
         exact
         path={AppRoute.Favorites}
