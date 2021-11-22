@@ -6,9 +6,10 @@ import {Type} from '../../utils/const';
 type CardsListProps = {
   currentCityOffers: Offers,
   type: Type,
+  offerCurrentId: number | null,
 };
 
-function CardsList({currentCityOffers, type}: CardsListProps):JSX.Element {
+function CardsList({currentCityOffers, type, offerCurrentId}: CardsListProps):JSX.Element {
 
   return (
     <>
@@ -18,6 +19,7 @@ function CardsList({currentCityOffers, type}: CardsListProps):JSX.Element {
             key={offer.id}
             offer={offer}
             type={type}
+            offerCurrentId={offerCurrentId}
           />))
       }
     </>

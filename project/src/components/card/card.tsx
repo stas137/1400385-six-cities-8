@@ -8,6 +8,7 @@ import {fetchOfferIdAction, fetchOfferIdBookmarkAction} from '../../store/api-ac
 type CardProps = {
   offer: Offer,
   type: Type,
+  offerCurrentId: number | null,
 };
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
@@ -17,8 +18,8 @@ const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onClickOffer(offerId: number) {
     dispatch(fetchOfferIdAction(offerId));
   },
-  onClickBookmark(offerId: number, status: Bookmark) {
-    dispatch(fetchOfferIdBookmarkAction(offerId, status));
+  onClickBookmark(offerId: number, status: Bookmark, offerCurrentId: number | null) {
+    dispatch(fetchOfferIdBookmarkAction(offerId, status, offerCurrentId));
   },
 });
 
@@ -27,7 +28,7 @@ const connector = connect(null, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = CardProps & PropsFromRedux;
 
-function Card({onMouseAction, onClickOffer, onClickBookmark, offer, type}: ConnectedComponentProps):JSX.Element {
+function Card({onMouseAction, onClickOffer, onClickBookmark, offer, type, offerCurrentId}: ConnectedComponentProps):JSX.Element {
 
   return (
     <article className={type === Type.Main ? 'cities__place-card place-card' : 'near-places__card place-card'} onMouseEnter={() => onMouseAction(offer.id)} onMouseLeave={() => onMouseAction(null)}>
@@ -49,13 +50,13 @@ function Card({onMouseAction, onClickOffer, onClickBookmark, offer, type}: Conne
           </div>
 
           {offer.isFavorite ?
-            <button className="place-card__bookmark-button button place-card__bookmark-button--active" type="button" onClick={() => onClickBookmark(offer.id, Bookmark.Delete)}>
+            <button className="place-card__bookmark-button button place-card__bookmark-button--active" type="button" onClick={() => onClickBookmark(offer.id, Bookmark.Delete, offerCurrentId)}>
               <svg className="place-card__bookmark-icon" width="18" height="19">
                 <use xlinkHref="#icon-bookmark"></use>
               </svg>
               <span className="visually-hidden">To bookmarks</span>
             </button> :
-            <button className="place-card__bookmark-button button" type="button" onClick={() => onClickBookmark(offer.id, Bookmark.Add)}>
+            <button className="place-card__bookmark-button button" type="button" onClick={() => onClickBookmark(offer.id, Bookmark.Add, offerCurrentId)}>
               <svg className="place-card__bookmark-icon" width="18" height="19">
                 <use xlinkHref="#icon-bookmark"></use>
               </svg>

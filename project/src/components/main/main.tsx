@@ -87,6 +87,7 @@ function Main(props: PropsFromRedux):JSX.Element {
                     <CardsList
                       currentCityOffers={currentCityOffersAfterSort}
                       type={Type.Main}
+                      offerCurrentId={null}
                     />
                   </div>
                 </section>

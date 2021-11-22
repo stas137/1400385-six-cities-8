@@ -1,4 +1,4 @@
-import {Offers, Offer, UserData, Comment} from '../types/offers';
+import {Offers, Offer, UserData, Comment, Host} from '../types/offers';
 import {internet, datatype, commerce, random, name} from 'faker';
 
 export const makeFakeListOptions = ():string[] => ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'];
@@ -11,12 +11,19 @@ export const makeFakeUser = ():UserData => ({
   name: internet.userName(),
 });
 
+export const makeFakeHost = ():Host => ({
+  avatarUrl: internet.avatar(),
+  id: datatype.number(),
+  isPro: datatype.boolean(),
+  name: internet.userName(),
+});
+
 export const makeFakeOfferComment = ():Comment => ({
   comment: datatype.string(),
   date: datatype.datetime(),
   id: datatype.number(),
   rating: datatype.number(),
-  user: makeFakeUser(),
+  user: makeFakeHost(),
 });
 
 export const makeFakeOffer = ():Offer => ({

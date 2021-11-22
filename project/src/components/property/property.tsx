@@ -27,7 +27,7 @@ const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
     dispatch(logoutAction());
   },
   onClickBookmark(offerId: number, status: Bookmark) {
-    dispatch(fetchOfferIdBookmarkAction(offerId, status));
+    dispatch(fetchOfferIdBookmarkAction(offerId, status, null));
   },
 });
 
@@ -169,6 +169,7 @@ function Property(props: PropsFromRedux):JSX.Element {
               <CardsList
                 currentCityOffers={nearBy}
                 type={Type.Property}
+                offerCurrentId={offer.id}
               />
             </div>
           </section>

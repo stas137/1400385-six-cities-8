@@ -63,14 +63,18 @@ export const fetchOfferIdAction = (offerId: number): ThunkActionResult =>
     }
   };
 
-export const fetchOfferIdBookmarkAction = (offerId: number, status: Bookmark): ThunkActionResult =>
+export const fetchOfferIdBookmarkAction = (offerId: number, status: Bookmark, offerCurrentId: number | null): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     try {
-      const responseOfferId = await api.post(`${APIRoute.Favorite}/${offerId}/${status}`);
-      dispatch(loadOffer(adaptToClientOffer(responseOfferId.data)));
+      if (!offerCurrentId) {
+        const responseOfferId = await api.post(`${APIRoute.Favorite}/${offerId}/${status}`);
+        dispatch(loadOffer(adaptToClientOffer(responseOfferId.data)));
+      } else {
+        await api.post(`${APIRoute.Favorite}/${offerId}/${status}`);
 
-      const responseOfferIdNearBy = await api.get(`${APIRoute.Offers}/${offerId}/nearby`);
-      dispatch(loadOfferNearBy(adaptToClientOffers(responseOfferIdNearBy.data)));
+        const responseOfferIdNearBy = await api.get(`${APIRoute.Offers}/${offerCurrentId}/nearby`);
+        dispatch(loadOfferNearBy(adaptToClientOffers(responseOfferIdNearBy.data)));
+      }
 
       const responseOffers = await api.get<OffersFromServer>(APIRoute.Offers);
       dispatch(loadOffers(adaptToClientOffers(responseOffers.data)));

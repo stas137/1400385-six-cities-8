@@ -10,7 +10,7 @@ type FavoriteCardProps = {
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onClickBookmark(offerId: number, status: Bookmark) {
-    dispatch(fetchOfferIdBookmarkAction(offerId, status));
+    dispatch(fetchOfferIdBookmarkAction(offerId, status, null));
   },
   onClickOffer(offerId: number) {
     dispatch(fetchOfferIdAction(offerId));
