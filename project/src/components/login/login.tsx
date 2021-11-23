@@ -78,6 +78,7 @@ function Login(props: PropsFromRedux):JSX.Element {
                   name="email"
                   placeholder="Email"
                   required
+                  pattern="^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$"
                   data-testid="email"
                 />
               </div>
@@ -90,6 +91,7 @@ function Login(props: PropsFromRedux):JSX.Element {
                   name="password"
                   placeholder="Password"
                   required
+                  pattern="(?=.*[A-Za-z])(?=.*\d).+"
                   data-testid="password"
                 />
               </div>

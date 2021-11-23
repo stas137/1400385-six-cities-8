@@ -11,7 +11,7 @@ import {
 import {AuthorizationStatus} from './const';
 
 export const getMonthName = (monthNumber: number): string => {
-  const monthName = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+  const monthName = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   return monthName[monthNumber];
 };
 
@@ -25,6 +25,13 @@ export const getRandomInteger = (a = 0, b = 1) => {
   const upper = Math.floor(Math.max(a, b));
 
   return Math.floor(lower + Math.random() * (upper - lower + 1));
+};
+
+export const upperCaseFirst = (str: string):string => {
+  if (!str) {
+    return str;
+  }
+  return str[0].toUpperCase() + str.slice(1);
 };
 
 export const sortCurrentCityOffers = (selectedSort: string, currentCityOffers: Offers):Offers => {

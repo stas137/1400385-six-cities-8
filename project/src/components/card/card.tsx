@@ -4,6 +4,7 @@ import {ThunkAppDispatch} from '../../types/action';
 import {setActiveCard} from '../../store/action';
 import {connect, ConnectedProps} from 'react-redux';
 import {fetchOfferIdAction, fetchOfferIdBookmarkAction} from '../../store/api-actions';
+import {upperCaseFirst} from '../../utils/common';
 
 type CardProps = {
   offer: Offer,
@@ -49,24 +50,20 @@ function Card({onMouseAction, onClickOffer, onClickBookmark, offer, type, offerC
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
 
-          {offer.isFavorite ?
-            <button className="place-card__bookmark-button button place-card__bookmark-button--active" type="button" onClick={() => onClickBookmark(offer.id, Bookmark.Delete, offerCurrentId)}>
-              <svg className="place-card__bookmark-icon" width="18" height="19">
-                <use xlinkHref="#icon-bookmark"></use>
-              </svg>
-              <span className="visually-hidden">To bookmarks</span>
-            </button> :
-            <button className="place-card__bookmark-button button" type="button" onClick={() => onClickBookmark(offer.id, Bookmark.Add, offerCurrentId)}>
-              <svg className="place-card__bookmark-icon" width="18" height="19">
-                <use xlinkHref="#icon-bookmark"></use>
-              </svg>
-              <span className="visually-hidden">To bookmarks</span>
-            </button>}
+          <button
+            className={offer.isFavorite ? 'place-card__bookmark-button button place-card__bookmark-button--active' : 'place-card__bookmark-button button'}
+            type="button" onClick={() => onClickBookmark(offer.id, offer.isFavorite ? Bookmark.Delete : Bookmark.Add, offerCurrentId)}
+          >
+            <svg className="place-card__bookmark-icon" width="18" height="19">
+              <use xlinkHref="#icon-bookmark"></use>
+            </svg>
+            <span className="visually-hidden">{offer.isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
+          </button>
 
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${(offer.rating / 5) * 100}%`}}></span>
+            <span style={{width: `${(Math.round(offer.rating) / 5) * 100}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
@@ -75,7 +72,7 @@ function Card({onMouseAction, onClickOffer, onClickBookmark, offer, type, offerC
             {offer.title}
           </span>
         </h2>
-        <p className="place-card__type">{offer.type}</p>
+        <p className="place-card__type">{upperCaseFirst(offer.type)}</p>
       </div>
     </article>
   );

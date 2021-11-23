@@ -2,9 +2,10 @@ import SortOption from '../sort-option/sort-option';
 
 type SortOptionsProps = {
   listOptions: string[],
+  onSortToggle: () => void,
 }
 
-function SortOptions({listOptions}: SortOptionsProps):JSX.Element {
+function SortOptions({listOptions, onSortToggle}: SortOptionsProps):JSX.Element {
 
   return (
     <ul className="places__options places__options--custom places__options--opened" data-testid="sort-options">
@@ -14,6 +15,7 @@ function SortOptions({listOptions}: SortOptionsProps):JSX.Element {
             key={option}
             indexOption={index}
             nameOption={option}
+            onSortToggle={onSortToggle}
           />
         ))
       }

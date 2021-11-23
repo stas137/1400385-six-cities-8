@@ -46,6 +46,10 @@ function Main(props: PropsFromRedux):JSX.Element {
     onClickLogout();
   };
 
+  const onSortToggle = () => {
+    setSortToggle(!sortToggle);
+  };
+
   return (
     <div className="page page--gray page--main">
       <Header
@@ -80,6 +84,7 @@ function Main(props: PropsFromRedux):JSX.Element {
                       sortToggle ?
                         <SortOptions
                           listOptions={listOptions}
+                          onSortToggle={onSortToggle}
                         /> : ''
                     }
                   </form>

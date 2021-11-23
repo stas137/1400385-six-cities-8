@@ -29,8 +29,13 @@ function Favorites({offers, userData, onClickLogout}: PropsFromRedux):JSX.Elemen
   const offerCities = offers.map((offer) => offer.city.name);
   const uniqCities = [...new Set(offerCities)];
   const offersFavorites = offers.filter((offer) => offer.isFavorite === true);
+  const cityOffersFavorites = uniqCities.filter((city) => offersFavorites.filter((offer) => offer.city.name === city).length);
 
-  const onClickHandler = (e: SyntheticEvent<HTMLElement>) => {
+  /* eslint-disable no-console */
+  console.log(cityOffersFavorites);
+  /* eslint-enable no-console */
+
+  const handlerLinkClick = (e: SyntheticEvent<HTMLElement>) => {
     e.preventDefault();
     onClickLogout();
   };
@@ -56,7 +61,7 @@ function Favorites({offers, userData, onClickLogout}: PropsFromRedux):JSX.Elemen
                   </Link>
                 </li>
                 <li className="header__nav-item">
-                  <Link className="header__nav-link" to={AppRoute.SignIn} onClick={onClickHandler}>
+                  <Link className="header__nav-link" to={AppRoute.SignIn} onClick={handlerLinkClick}>
                     <span className="header__signout">Sign out</span>
                   </Link>
                 </li>
@@ -74,11 +79,11 @@ function Favorites({offers, userData, onClickLogout}: PropsFromRedux):JSX.Elemen
                 <h1 className="favorites__title">Saved listing</h1>
                 <ul className="favorites__list">
                   {
-                    uniqCities.map((city) => (
+                    cityOffersFavorites.map((city) => (
                       <FavoriteList
                         key={city}
                         city={city}
-                        offers={offers}
+                        offers={offersFavorites}
                       />
                     ))
                   }

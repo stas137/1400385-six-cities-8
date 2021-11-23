@@ -12,6 +12,7 @@ import {SyntheticEvent} from 'react';
 import {getSelectedOfferId} from '../../store/book-process/selectors';
 import {getComments, getNearBy, getOffer} from '../../store/offers-data/selectors';
 import {getAuthorizationStatus, getUserData} from '../../store/user-process/selectors';
+import {upperCaseFirst} from '../../utils/common';
 
 const mapStateToProps = (state: State) => ({
   offer: getOffer(state),
@@ -38,6 +39,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 function Property(props: PropsFromRedux):JSX.Element {
 
   const {offer, nearBy, comments, selectedOfferId, authorizationStatus, userData, onClickLogout, onClickBookmark} = props;
+  const offerImages = offer.images.slice(0, 5);
 
   const onClickHandler = (e: SyntheticEvent<HTMLElement>) => {
     e.preventDefault();
@@ -56,7 +58,7 @@ function Property(props: PropsFromRedux):JSX.Element {
           <div className="property__gallery-container container">
             <div className="property__gallery">
               {
-                offer.images.map((imageUrl) => (
+                offerImages.map((imageUrl) => (
                   <div className="property__image-wrapper" key={imageUrl}>
                     <img className="property__image" src={imageUrl} alt="Carousel studio" />
                   </div>
@@ -93,14 +95,14 @@ function Property(props: PropsFromRedux):JSX.Element {
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{width: `${(offer.rating / 5) * 100}%`}}></span>
+                  <span style={{width: `${(Math.round(offer.rating) / 5) * 100}%`}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="property__rating-value rating__value">{offer.rating}</span>
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
-                  {offer.type}
+                  {upperCaseFirst(offer.type)}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
                   {offer.bedrooms} Bedrooms

@@ -4,15 +4,15 @@ import {bookProcess} from './book-process/book-process';
 import {userProcess} from './user-process/user-process';
 
 export enum NameSpace {
-  data = 'DATA',
-  book = 'BOOK',
-  user = 'USER',
+  Data = 'DATA',
+  Book = 'BOOK',
+  User = 'USER',
 }
 
 export const rootReducer = combineReducers({
-  [NameSpace.data]: offersData,
-  [NameSpace.book]: bookProcess,
-  [NameSpace.user]: userProcess,
+  [NameSpace.Data]: offersData,
+  [NameSpace.Book]: bookProcess,
+  [NameSpace.User]: userProcess,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

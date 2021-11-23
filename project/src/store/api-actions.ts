@@ -117,4 +117,5 @@ export const logoutAction = (): ThunkActionResult =>
     dropToken();
     dispatch(requireLogout());
     dispatch(redirectToRoute(AppRoute.Main));
+    await dispatch(fetchOffersAction());
   };
