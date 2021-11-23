@@ -7,12 +7,16 @@ import {State} from '../../types/state';
 import {connect, ConnectedProps} from 'react-redux';
 import Header from '../header/header';
 import {ThunkAppDispatch} from '../../types/action';
-import {fetchOfferIdBookmarkAction, logoutAction} from '../../store/api-actions';
+import {
+  fetchOfferIdBookmarkAction,
+  logoutAction
+} from '../../store/api-actions';
 import {SyntheticEvent} from 'react';
 import {getSelectedOfferId} from '../../store/book-process/selectors';
 import {getComments, getNearBy, getOffer} from '../../store/offers-data/selectors';
 import {getAuthorizationStatus, getUserData} from '../../store/user-process/selectors';
 import {upperCaseFirst} from '../../utils/common';
+
 
 const mapStateToProps = (state: State) => ({
   offer: getOffer(state),

@@ -12,7 +12,7 @@ import {createAPI} from './services/api';
 import {requireAuthorization} from './store/action';
 import {AuthorizationStatus} from './utils/const';
 import {ThunkAppDispatch} from './types/action';
-import {checkAuthAction, fetchOffersAction} from './store/api-actions';
+import {checkAuthAction, fetchOfferIdActionURL, fetchOffersAction} from './store/api-actions';
 import {redirect} from './store/middleware/redirect';
 
 const api = createAPI(
@@ -28,6 +28,12 @@ const store = createStore(
 );
 
 (store.dispatch as ThunkAppDispatch)(checkAuthAction());
+
+const path = browserHistory.location.pathname.split('/');
+if ((path.length === 3) && (path[1] === 'offer')) {
+  (store.dispatch as ThunkAppDispatch)(fetchOfferIdActionURL(Number(path[2])));
+}
+
 (store.dispatch as ThunkAppDispatch)(fetchOffersAction());
 
 ReactDOM.render(

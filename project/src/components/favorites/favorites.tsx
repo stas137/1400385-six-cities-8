@@ -31,10 +31,6 @@ function Favorites({offers, userData, onClickLogout}: PropsFromRedux):JSX.Elemen
   const offersFavorites = offers.filter((offer) => offer.isFavorite === true);
   const cityOffersFavorites = uniqCities.filter((city) => offersFavorites.filter((offer) => offer.city.name === city).length);
 
-  /* eslint-disable no-console */
-  console.log(cityOffersFavorites);
-  /* eslint-enable no-console */
-
   const handlerLinkClick = (e: SyntheticEvent<HTMLElement>) => {
     e.preventDefault();
     onClickLogout();

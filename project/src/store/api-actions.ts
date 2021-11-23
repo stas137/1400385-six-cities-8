@@ -8,7 +8,7 @@ import {
   requireAuthorization,
   requireLogout,
   saveUserData,
-  disabledForm
+  disabledForm, setActiveCard
 } from './action';
 import {dropToken, saveToken, Token} from '../services/token';
 import {APIRoute, AppRoute, AuthorizationStatus, Bookmark} from '../utils/const';
@@ -19,15 +19,19 @@ import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const AUTH_FAIL_MESSAGE = 'Не забудьте авторизоваться';
-
-enum StatusCode {
-  Ok = 200,
-}
+const SERVER_NOT_RESPONSE = 'Сервер не отвечает, попробуйте позже';
+const MESSAGE_NOT_SEND = 'Сообщение не было отправлено, попробуйте позже';
 
 export const fetchOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<OffersFromServer>(APIRoute.Offers);
-    dispatch(loadOffers(adaptToClientOffers(data)));
+    try {
+      const {data} = await api.get<OffersFromServer>(APIRoute.Offers);
+      dispatch(loadOffers(adaptToClientOffers(data)));
+    }
+    catch {
+      toast.configure();
+      toast.info(SERVER_NOT_RESPONSE);
+    }
   };
 
 export const checkAuthAction = (): ThunkActionResult =>
@@ -45,9 +49,9 @@ export const checkAuthAction = (): ThunkActionResult =>
 
 export const fetchOfferIdAction = (offerId: number): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const responseOfferId = await api.get(`${APIRoute.Offers}/${offerId}`);
+    try {
+      const responseOfferId = await api.get(`${APIRoute.Offers}/${offerId}`);
 
-    if (responseOfferId.status === StatusCode.Ok) {
       dispatch(loadOffer(adaptToClientOffer(responseOfferId.data)));
 
       const responseOfferIdNearBy = await api.get(`${APIRoute.Offers}/${offerId}/nearby`);
@@ -58,7 +62,27 @@ export const fetchOfferIdAction = (offerId: number): ThunkActionResult =>
 
       const url = `/offer/${offerId}`;
       dispatch(redirectToRoute(url as AppRoute));
-    } else {
+    } catch {
+      dispatch(redirectToRoute(AppRoute.NotFound));
+    }
+  };
+
+export const fetchOfferIdActionURL = (offerId: number): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    try {
+      const responseOfferId = await api.get(`${APIRoute.Offers}/${offerId}`);
+
+      dispatch(loadOffer(adaptToClientOffer(responseOfferId.data)));
+
+      const responseOfferIdNearBy = await api.get(`${APIRoute.Offers}/${offerId}/nearby`);
+      dispatch(loadOfferNearBy(adaptToClientOffers(responseOfferIdNearBy.data)));
+
+      const responseOfferIdComments = await api.get(`${APIRoute.Comments}/${offerId}`);
+      dispatch(loadOfferComments(adaptToClientComments(responseOfferIdComments.data)));
+
+      dispatch(setActiveCard(offerId));
+
+    } catch {
       dispatch(redirectToRoute(AppRoute.NotFound));
     }
   };
@@ -86,11 +110,17 @@ export const fetchOfferIdBookmarkAction = (offerId: number, status: Bookmark, of
 
 export const loginAction = ({login: email, password}: AuthData): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    const {data} = await api.post<{'avatar_url': string, email: string, id: number, 'is_pro': boolean, name: string, token: Token}>(APIRoute.Login, {email, password});
-    saveToken(data.token);
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    dispatch(saveUserData({avatarUrl: data.avatar_url, email: data.email, id: data.id, isPro: data.is_pro, name: data.name}));
-    dispatch(redirectToRoute(AppRoute.Main));
+    try {
+      const {data} = await api.post<{'avatar_url': string, email: string, id: number, 'is_pro': boolean, name: string, token: Token}>(APIRoute.Login, {email, password});
+      saveToken(data.token);
+      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      dispatch(saveUserData({avatarUrl: data.avatar_url, email: data.email, id: data.id, isPro: data.is_pro, name: data.name}));
+      dispatch(redirectToRoute(AppRoute.Main));
+    }
+    catch {
+      toast.configure();
+      toast.info(SERVER_NOT_RESPONSE);
+    }
   };
 
 export const sendComment = ({rating, comment}: CommentPost, offerId: number, clearForm: () => void): ThunkActionResult =>
@@ -103,7 +133,7 @@ export const sendComment = ({rating, comment}: CommentPost, offerId: number, cle
     }
     catch {
       toast.configure();
-      toast.info('Сообщение не было отправлено, попробуйте позже');
+      toast.info(MESSAGE_NOT_SEND);
     }
     finally {
       dispatch(disabledForm(false));
@@ -113,9 +143,15 @@ export const sendComment = ({rating, comment}: CommentPost, offerId: number, cle
 
 export const logoutAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    await api.delete(APIRoute.Logout);
-    dropToken();
-    dispatch(requireLogout());
-    dispatch(redirectToRoute(AppRoute.Main));
-    await dispatch(fetchOffersAction());
+    try {
+      await api.delete(APIRoute.Logout);
+      dropToken();
+      dispatch(requireLogout());
+      dispatch(redirectToRoute(AppRoute.Main));
+      await dispatch(fetchOffersAction());
+    }
+    catch {
+      toast.configure();
+      toast.info(SERVER_NOT_RESPONSE);
+    }
   };
