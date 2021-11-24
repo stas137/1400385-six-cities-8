@@ -10,7 +10,7 @@ describe('Hook: useMap', () => {
       offers: makeFakeOffers(),
     };
 
-    const mapRef = {current: document.createElement ('div')};
+    const mapRef = {current: document.createElement('div')};
 
     const {result} = renderHook(() =>
       useMap(mapRef, mockProps.offers),
