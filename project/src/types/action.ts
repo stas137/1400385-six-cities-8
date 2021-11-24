@@ -17,19 +17,19 @@ import {AxiosInstance} from 'axios';
 import {State} from './state';
 
 export enum ActionType {
-  ChangeCity = 'change-city',
-  ChangeSort = 'change-sort',
-  MouseEnter = 'mouse-enter',
-  MouseLeave = 'mouse-leave',
-  LoadOffers = 'load-offers',
-  LoadOffer = 'load-offer',
-  LoadOfferNearBy = 'load-offer-near-by',
-  LoadOfferComments = 'load-offer-comments',
-  RequireAuthorization = 'require-authorization',
-  RequireLogout = 'require-logout',
-  SaveUserData = 'save-user-data',
-  RedirectToRoute = 'redirect-to-route',
-  DisabledForm = 'disabled-form',
+  ChangeCity = 'main/changeCity',
+  ChangeSort = 'main/changeSort',
+  MouseEnter = 'main/mouseEnter',
+  MouseLeave = 'main/mouseLeave',
+  LoadOffers = 'main/loadOffers',
+  LoadOffer = 'property/loadOffer',
+  LoadOfferNearBy = 'property/loadOfferNearBy',
+  LoadOfferComments = 'property/loadOfferComments',
+  RequireAuthorization = 'login/requireAuthorization',
+  RequireLogout = 'login/requireLogout',
+  SaveUserData = 'login/saveUserData',
+  RedirectToRoute = 'main/redirect-to-route',
+  DisabledForm = 'property/disabledForm',
 }
 
 export type Actions =

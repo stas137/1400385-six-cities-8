@@ -64,6 +64,7 @@ function Map({currentCityOffers, selectedOfferId}: MapProps):JSX.Element {
     <div
       style={{height: '100%'}}
       ref={mapRef}
+      data-testid='mapLeaflet'
     >
     </div>
   );

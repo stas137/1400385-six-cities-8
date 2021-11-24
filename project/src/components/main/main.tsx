@@ -4,14 +4,12 @@ import CitiesList from '../cities-list/cities-list';
 import SortOptions from '../sort-options/sort-options';
 import Map from '../map/map';
 import {Type} from '../../utils/const';
-import {sortCurrentCityOffers} from '../../utils/common';
 import {connect, ConnectedProps} from 'react-redux';
 import {State} from '../../types/state';
 import {getCurrentCity, getListOptions, getSelectedOfferId, getSelectedSort} from '../../store/book-process/selectors';
 import {ThunkAppDispatch} from '../../types/action';
-import {Offers, Offer} from '../../types/offers';
 import {logoutAction} from '../../store/api-actions';
-import {getOffers} from '../../store/offers-data/selectors';
+import {getCurrentCityOffers} from '../../store/offers-data/selectors';
 import {getAuthorizationStatus, getUserData} from '../../store/user-process/selectors';
 import Header from '../header/header';
 
@@ -19,10 +17,10 @@ const mapStateToProps = (state: State) => ({
   currentCity: getCurrentCity(state),
   selectedSort: getSelectedSort(state),
   selectedOfferId: getSelectedOfferId(state),
-  offers: getOffers(state),
   listOptions: getListOptions(state),
   authorizationStatus: getAuthorizationStatus(state),
   userData: getUserData(state),
+  currentCityOffers: getCurrentCityOffers(state),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
@@ -36,10 +34,8 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function Main(props: PropsFromRedux):JSX.Element {
 
-  const {currentCity, selectedSort, selectedOfferId, offers, listOptions, authorizationStatus, userData, onClickLogout} = props;
+  const {currentCity, selectedSort, selectedOfferId, listOptions, authorizationStatus, userData, currentCityOffers, onClickLogout} = props;
   const [sortToggle, setSortToggle] = useState<boolean>(false);
-  const currentCityOffers: Offers | [] = offers.filter((offer: Offer) => offer.city.name === currentCity);
-  const currentCityOffersAfterSort = sortCurrentCityOffers(selectedSort, currentCityOffers);
 
   const onClickHandler = (e: SyntheticEvent<HTMLElement>) => {
     e.preventDefault();
@@ -90,7 +86,7 @@ function Main(props: PropsFromRedux):JSX.Element {
                   </form>
                   <div className="cities__places-list places__list tabs__content">
                     <CardsList
-                      currentCityOffers={currentCityOffersAfterSort}
+                      currentCityOffers={currentCityOffers}
                       type={Type.Main}
                       offerCurrentId={null}
                     />
@@ -99,7 +95,7 @@ function Main(props: PropsFromRedux):JSX.Element {
                 <div className="cities__right-section">
                   <section className="cities__map map">
                     <Map
-                      currentCityOffers={currentCityOffersAfterSort}
+                      currentCityOffers={currentCityOffers}
                       selectedOfferId={selectedOfferId}
                     />
                   </section>
