@@ -80,7 +80,8 @@ function Property(props: PropsFromRedux):JSX.Element {
                   {offer.title}
                 </h1>
 
-                <button className={offer.isFavorite ? 'property__bookmark-button button property__bookmark-button--active' : 'property__bookmark-button button'}
+                <button
+                  className={offer.isFavorite ? 'property__bookmark-button button property__bookmark-button--active' : 'property__bookmark-button button'}
                   type="button" onClick={() => onClickBookmark(offer.id, offer.isFavorite ? Bookmark.Delete : Bookmark.Add)}
                 >
                   <svg className="property__bookmark-icon" width="31" height="33">
