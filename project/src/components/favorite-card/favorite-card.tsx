@@ -3,6 +3,7 @@ import {Bookmark} from '../../utils/const';
 import {ThunkAppDispatch} from '../../types/action';
 import {connect, ConnectedProps} from 'react-redux';
 import {fetchOfferIdAction, fetchOfferIdBookmarkAction} from '../../store/api-actions';
+import {upperCaseFirst} from '../../utils/common';
 
 type FavoriteCardProps = {
   offer: Offer,
@@ -45,14 +46,16 @@ function FavoriteCard({offer, onClickBookmark, onClickOffer}: ConnectedComponent
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${(offer.rating / 5) * 100}%`}}></span>
+            <span style={{width: `${(Math.round(offer.rating) / 5) * 100}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="/#">{offer.title}</a>
+          <span style={{cursor: 'pointer'}} onClick={() => onClickOffer(offer.id)}>
+            {offer.title}
+          </span>
         </h2>
-        <p className="place-card__type">{offer.type}</p>
+        <p className="place-card__type">{upperCaseFirst(offer.type)}</p>
       </div>
     </article>
   );

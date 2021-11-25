@@ -60,6 +60,8 @@ export const fetchOfferIdAction = (offerId: number): ThunkActionResult =>
       const responseOfferIdComments = await api.get(`${APIRoute.Comments}/${offerId}`);
       dispatch(loadOfferComments(adaptToClientComments(responseOfferIdComments.data)));
 
+      dispatch(setActiveCard(offerId));
+
       const url = `/offer/${offerId}`;
       dispatch(redirectToRoute(url as AppRoute));
     } catch {

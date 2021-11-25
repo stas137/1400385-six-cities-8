@@ -7,11 +7,11 @@ import {SyntheticEvent} from 'react';
 type HeaderProps = {
   authorizationStatus: AuthorizationStatus,
   userData: UserData,
-  onClickHandler: (e: SyntheticEvent<HTMLElement>) => void,
+  onLinkClick: (e: SyntheticEvent<HTMLElement>) => void,
 };
 
 function Header(props: HeaderProps):JSX.Element {
-  const {authorizationStatus, userData, onClickHandler} = props;
+  const {authorizationStatus, userData, onLinkClick} = props;
 
   return (
     <header className="header">
@@ -42,7 +42,7 @@ function Header(props: HeaderProps):JSX.Element {
                 {
                   authorizationStatus === AuthorizationStatus.Auth
                     ? (
-                      <Link className="header__nav-link" to={AppRoute.SignIn} onClick={onClickHandler}>
+                      <Link className="header__nav-link" to={AppRoute.SignIn} onClick={onLinkClick}>
                         <span className="header__signout">Sign out</span>
                       </Link>
                     )

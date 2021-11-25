@@ -32,7 +32,10 @@ type ConnectedComponentProps = CardProps & PropsFromRedux;
 function Card({onMouseAction, onClickOffer, onClickBookmark, offer, type, offerCurrentId}: ConnectedComponentProps):JSX.Element {
 
   return (
-    <article className={type === Type.Main ? 'cities__place-card place-card' : 'near-places__card place-card'} onMouseEnter={() => onMouseAction(offer.id)} onMouseLeave={() => onMouseAction(null)}>
+    <article className={type === Type.Main ? 'cities__place-card place-card' : 'near-places__card place-card'}
+      onMouseEnter={() => type === Type.Main ? onMouseAction(offer.id) : ''}
+      onMouseLeave={() => type === Type.Main ? onMouseAction(null) : ''}
+    >
       {type === Type.Main && offer.isPremium ? (
         <div className="place-card__mark">
           <span>Premium</span>

@@ -37,7 +37,7 @@ function Main(props: PropsFromRedux):JSX.Element {
   const {currentCity, selectedSort, selectedOfferId, listOptions, authorizationStatus, userData, currentCityOffers, onClickLogout} = props;
   const [sortToggle, setSortToggle] = useState<boolean>(false);
 
-  const onClickHandler = (e: SyntheticEvent<HTMLElement>) => {
+  const handlerLinkClick = (e: SyntheticEvent<HTMLElement>) => {
     e.preventDefault();
     onClickLogout();
   };
@@ -51,7 +51,7 @@ function Main(props: PropsFromRedux):JSX.Element {
       <Header
         authorizationStatus={authorizationStatus}
         userData={userData}
-        onClickHandler={onClickHandler}
+        onLinkClick={handlerLinkClick}
       />
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
